@@ -4,8 +4,8 @@ const cliente = new Client(DBconfigs);
 
 //----- FUNÇÕES ASSÍNCRONAS ------
 getProdutos();
-//insertProduto(001, "banana", 2.00, 1);
-//deleteProduto("HB20");
+//insertProduto(3, 'maçã', 1.00, 1);
+//deleteProduto(3);
 
 
 async function getProdutos(){
@@ -30,7 +30,7 @@ async function insertProduto(cod, nome, preco, qtd){
         console.log("iniciando a conexão.");
         await cliente.connect();
         console.log("Conexão bem sucedida!");
-        await cliente.query('INSERT INTO produtos("marca", "modelo") values('+"'"+cod+"','"+nome+"','"+preco+"','"+qtd+"');");
+        await cliente.query('INSERT INTO produtos("cod", "nome", "preço", "quantidade") values('+"'"+cod+"','"+nome+"','"+preco+"','"+qtd+"');");
         console.log("Valor inserido na tabela!");
 
         const resultado = await cliente.query("SELECT * FROM produtos");
