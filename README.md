@@ -7,3 +7,5 @@
 - Variáveis: cod = integer, Not Null, Primary Key; nome = character, 20, Not Null; preço = numeric(3,2); quatidade = integer;
 
 - Constraints: pk_prod -> cod
+
+- Executar: node index.js
