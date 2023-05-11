@@ -9,12 +9,12 @@ async function start()
 {
     try 
     {
-        //await deleteProduto(0);
-        await insertProduto(0, 'maçã', 1.00, 1);
-        await insertProduto(1, 'laranja', 1.00, 1);
+        //await deleteProduto(1);
+        //await insertProduto(20, 'maçã', 1.00, 1);
+        //await insertProduto(5, 'kiwi', 1.00, 1);
         //await getProdutos();
         //await getProdutoByName('maçã');
-        //await updateProduto(0, 'mamão', 2, 20);
+        //await updateProduto(20, 'melão', 2, 20);
         //await getProduto(1);
         //await disconnect();
     }
@@ -56,7 +56,13 @@ async function insertProduto(cod, nome, preco, qtd)
     try
     {    
         connect(cliente);
-        await cliente.query('INSERT INTO produtos("cod", "nome", "preço", "quantidade") values('+"'"+cod+"','"+nome+"','"+preco+"','"+qtd+"');");
+
+        const query = {
+            text: 'INSERT INTO produtos(cod, nome, preço, quantidade) VALUES($1, $2, $3, $4)',
+            values: [cod, nome, preco, qtd]
+        };
+        await cliente.query(query);
+
         console.log("Valor inserido na tabela!");
         const resultado = await cliente.query("SELECT * FROM produtos");
         console.table(resultado.rows);
@@ -75,25 +81,18 @@ async function updateProduto(cod, nome, preco, qtd)
     let cliente = new Client(DBconfigs);
 
     try
-    {
+    {    
         connect(cliente);
 
-        const query = `UPDATE ??
-                   SET ?? = ? 
-                   WHERE ?? = ?`;
+        const query = {
+            text: 'UPDATE produtos SET "nome" = $1, "preço" = $2, "quantidade" = $3 WHERE "cod" = $4',
+            values: [nome, preco, qtd, cod]
+        };
+        await cliente.query(query);
 
-        const values = ['produtos', 'nome', nome, 'cod', cod];
-
-        connection.query(query, values, (error, result) => {  // sends queries
-            connection.end();                                 // closes connection
-            if (error) throw error;
-            console.log(connection.sql);  // UPDATE `users` 
-        });
-
-        //await cliente.query(query, values);
-        //console.log("Valor atualizado na tabela!");
-        //const resultado = await cliente.query("SELECT * FROM produtos");
-        //console.table(resultado.rows);
+        console.log("Valor atualizado na tabela!");
+        const resultado = await cliente.query("SELECT * FROM produtos");
+        console.table(resultado.rows);
     }
     catch(ex){
         console.log("Ocorreu erro no updateProduto. "+ex)    
@@ -113,7 +112,12 @@ async function deleteProduto(cod)
     {
         connect(cliente);
 
-        await cliente.query("DELETE FROM produtos WHERE cod = '"+cod+"';");
+        const query = {
+            text: 'DELETE FROM produtos WHERE cod = $1',
+            values: [cod]
+        };
+        await cliente.query(query);
+
         console.log("Produto removido da tabela na tabela!");
 
         const resultado = await cliente.query("SELECT * FROM produtos");
@@ -135,8 +139,15 @@ async function getProdutoByName(name)
 
     try
     {   
-        connect(cliente);                    
-        const resultado = await cliente.query("SELECT * FROM produtos WHERE nome = '"+name+"';"); //executa a querry SQL
+        connect(cliente);                  
+        
+        const query = {
+            text: 'SELECT * FROM produtos WHERE nome = $1',
+            values: [name]
+        };
+
+        const resultado = await cliente.query(query);
+
         console.table(resultado.rows);
     }
     catch(ex){
@@ -155,9 +166,11 @@ async function getProdutos()
 
     try
     {   
-        connect(cliente);                     
-        const resultado = await cliente.query("SELECT * FROM produtos"); //executa a querry SQL
-        console.table(resultado.rows);                                 //Lista as tabela no terminal
+        connect(cliente);             
+        
+        const query = 'SELECT * FROM produtos';
+        const resultado = await cliente.query(query);
+        console.table(resultado.rows);
     }
     catch(ex){
         console.log("Ocorreu erro no getProdutos. "+ex)    
@@ -175,8 +188,14 @@ async function getProduto(cod)
 
     try
     {   
-        connect(cliente);                     
-        const resultado = await cliente.query("SELECT * FROM produtos WHERE cod = '"+cod+"';"); //executa a querry SQL
+        connect(cliente);    
+        
+        const query = {
+            text: 'SELECT * FROM produtos WHERE cod = $1',
+            values: [cod]
+        };
+
+        const resultado = await cliente.query(query);
         console.table(resultado.rows);
     }
     catch(ex){
