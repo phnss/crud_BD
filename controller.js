@@ -32,7 +32,6 @@ class ProdutoController
         }
     }
 
-    // inserir
     async insertProduto(cod, nome, preco, qtd)
     {
         let cliente = new Client(DBconfigs);
@@ -87,7 +86,6 @@ class ProdutoController
         }
     }
 
-    // remover
     async deleteProduto(cod)
     {
         let cliente = new Client(DBconfigs);
@@ -116,7 +114,27 @@ class ProdutoController
         }
     }
 
-    // pesquisar por nome
+    async getProdutos()
+    {
+        let cliente = new Client(DBconfigs);
+
+        try
+        {   
+            await this.connect(cliente);             
+            
+            const query = 'SELECT * FROM produtos';
+            const resultado = await cliente.query(query);
+            console.table(resultado.rows);
+        }
+        catch(ex){
+            console.log("Ocorreu erro no getProdutos. "+ex)    
+        }
+        finally
+        {
+            await this.disconnect(cliente);
+        }
+    }
+
     async getProdutoByName(name)
     {
         let cliente = new Client(DBconfigs);
@@ -143,30 +161,7 @@ class ProdutoController
         }
     }
 
-    // listar todos
-    async getProdutos()
-    {
-        let cliente = new Client(DBconfigs);
-
-        try
-        {   
-            await this.connect(cliente);             
-            
-            const query = 'SELECT * FROM produtos';
-            const resultado = await cliente.query(query);
-            console.table(resultado.rows);
-        }
-        catch(ex){
-            console.log("Ocorreu erro no getProdutos. "+ex)    
-        }
-        finally
-        {
-            await this.disconnect(cliente);
-        }
-    }
-
-    // exibir um
-    async getProduto(cod)
+    async getProdutoByCode(cod)
     {
         let cliente = new Client(DBconfigs);
 
