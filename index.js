@@ -66,8 +66,7 @@ async function getProductById()
 
 async function getProductReport()
 {
-    produtoController.reportProductInformation()
-    
+    produtoController.reportProductInformation();
 }
 
 async function closeApplication()
