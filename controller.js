@@ -126,16 +126,6 @@ class ProdutoController
             const query = 'SELECT * FROM produtos';
             const resultado = await cliente.query(query);
             console.table(resultado.rows);
-
-            const csvString = resultado.rows.map(row => Object.values(row).join(',')).join('\n');
-            fs.writeFile('./report/report.csv', csvString, (err) => {
-                if (err) {
-                  console.error('An error occurred while writing the file:', err);
-                } else {
-                  console.log('Query result was successfully saved to the file.');
-                }
-            });
-          
         }
         catch(ex){
             console.log("Ocorreu erro no getProdutos. "+ex)    
@@ -190,6 +180,38 @@ class ProdutoController
         }
         catch(ex){
             console.log("Ocorreu erro no getProdutos. "+ex)    
+        }
+        finally
+        {
+            await this.disconnect(cliente);
+        }
+    }
+
+    async reportProductInformation()
+    {
+        let cliente = new Client(DBconfigs);
+
+        try
+        {   
+            await this.connect(cliente);             
+            
+            const query = 'SELECT COUNT(*) AS Total_de_itens, SUM(preço * quantidade) AS Preço_total FROM Produtos';
+            const resultado = await cliente.query(query);
+            console.table(resultado.rows);
+            
+            const csvString = resultado.rows.map(row => Object.values(row).join(',')).join('\n');
+
+            fs.writeFile('./report/report.csv', csvString, (err) => {
+                if (err) {
+                    console.error('An error occurred while writing the file:', err);
+                } else {
+                    console.log('Query result was successfully saved to the file.');
+                }
+            });
+            fs.close();
+        }
+        catch(ex){
+            console.log("Ocorreu erro no report. "+ex)    
         }
         finally
         {

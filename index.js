@@ -64,6 +64,12 @@ async function getProductById()
     await produtoController.getProdutoById(id);
 }
 
+async function getProductReport()
+{
+    produtoController.reportProductInformation()
+    
+}
+
 async function closeApplication()
 {
     console.log('Exiting...');
@@ -83,7 +89,8 @@ async function printMenuOptions()
     console.log('4. List all products');
     console.log('5. Get product by name');
     console.log('6. Get product by code');
-    console.log('7. Exit');
+    console.log('7. Report about products')
+    console.log('8. Exit');
 }
 
 async function main() 
@@ -118,8 +125,11 @@ async function main()
                 await getProductByCode();
                 break;
             case '7':
-                await closeApplication();
-                return;
+                await getProductReport();
+                break;
+            case '8':
+                await closeApplication();  
+                return;  
             default:
                 await invalidCommand();
         }
