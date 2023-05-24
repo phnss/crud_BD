@@ -1,5 +1,6 @@
 const DBconfigs = require('./configs/DBconfigs');
 const { Client } = require('pg');
+const fs = require('fs');
 
 class ProdutoController 
 {
@@ -125,6 +126,16 @@ class ProdutoController
             const query = 'SELECT * FROM produtos';
             const resultado = await cliente.query(query);
             console.table(resultado.rows);
+
+            const csvString = resultado.rows.map(row => Object.values(row).join(',')).join('\n');
+            fs.writeFile('./report/report.csv', csvString, (err) => {
+                if (err) {
+                  console.error('An error occurred while writing the file:', err);
+                } else {
+                  console.log('Query result was successfully saved to the file.');
+                }
+            });
+          
         }
         catch(ex){
             console.log("Ocorreu erro no getProdutos. "+ex)    
