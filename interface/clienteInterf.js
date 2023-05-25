@@ -36,8 +36,8 @@ async function updateCliente()
 
 async function deleteCliente()
 {
-    const deleteID = await promptUserInput('Enter the ID of the Client to delete: ');
-    await clienteController.deleteCliente(deleteId);
+    const id = await promptUserInput('Enter the ID of the Client to delete: ');
+    await clienteController.deleteCliente(id);
 }
 
 async function listAllClient()

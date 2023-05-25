@@ -171,8 +171,33 @@ class ClienteController
             await this.connect(cliente);    
             
             const query = {
-                text: 'SELECT * FROM clientes WHERE cod = $1',
+                text: 'SELECT * FROM clientes WHERE email = $1',
                 values: [email]
+            };
+
+            const resultado = await cliente.query(query);
+            console.table(resultado.rows);
+        }
+        catch(ex){
+            console.log("Ocorreu erro no getClienteByEmail. "+ex)    
+        }
+        finally
+        {
+            await this.disconnect(cliente);
+        }
+    }
+
+    async getClienteByID(id)
+    {
+        let cliente = new Client(DBconfigs);
+
+        try
+        {   
+            await this.connect(cliente);    
+            
+            const query = {
+                text: 'SELECT * FROM clientes WHERE id = $1',
+                values: [id]
             };
 
             const resultado = await cliente.query(query);
