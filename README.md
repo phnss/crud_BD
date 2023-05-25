@@ -1,8 +1,23 @@
-# Projeto de banco de dados
+# Projeto de banco de dados - 2022.2 - UFPB
+
+## Integrantes:
+
+- Pedro Henrique Nogueira da Silva Santos
+- Diego Luis Reis da Silva
+
+## Tecnolgias:
+
+- PostgresSQL
+- Node.js
+    - node-postgres(pg): npm install pg
+    - file-system(fs)
+    - knex: npm install knex
 
 > Configurações do banco de dados:
 
-- nome do database: Crud_base; Schema -> Table -> Table criada: produtos;
+- Cria banco de dados: Crud_base 
+
+- Schema -> Table -> Table criada: produtos;
 
 - Variáveis: cod = integer, Not Null, Primary Key; nome = character, 20, Not Null; preço = numeric(3,2); quatidade = integer;
 
