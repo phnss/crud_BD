@@ -15,7 +15,7 @@ const db = knex({
 });
 
 // Read the SQL file
-const sql = fs.readFileSync('db.sql').toString();
+const sql = fs.readFileSync('./database/db.sql').toString();
 
 // Execute the SQL script
 db.raw(sql)

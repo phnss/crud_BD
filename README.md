@@ -15,7 +15,7 @@
 
 > Configurações do banco de dados:
 
-- Cria banco de dados: Crud_base 
+- Cria banco de dados: Crud_base / ou utilizar o arquivo db.js -> node ./database/db.js
 
 - Schema -> Table -> Table criada: produtos;
 
