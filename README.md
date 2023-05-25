@@ -24,3 +24,7 @@
 - Constraints: pk_prod -> cod
 
 - Executar: node index.js
+
+### Diagrama UML:
+
+![Diagrama UML](img/UML-Crud.png)
