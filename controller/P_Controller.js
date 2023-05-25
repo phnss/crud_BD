@@ -200,7 +200,7 @@ class ProdutoController
             console.table(resultado.rows);
             
             const csvString = resultado.rows.map(row => Object.values(row).join(',')).join('\n');
-            
+                       
             fs.writeFile('./report/report_produto.csv', csvString, (err) => {
                 if (err) {
                     console.error('An error occurred while writing the file:', err);

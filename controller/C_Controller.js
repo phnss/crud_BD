@@ -48,7 +48,7 @@ class ClienteController
             await cliente.query(query);
 
             console.log("Valor inserido na tabela!");
-            const resultado = await cliente.query("SELECT * FROM clientes ORDER BY preço ASC");
+            const resultado = await cliente.query("SELECT * FROM clientes ORDER BY id ASC");
             console.table(resultado.rows);
         }
         catch(ex){
@@ -75,7 +75,7 @@ class ClienteController
             await cliente.query(query);
 
             console.log("Valor atualizado na tabela!");
-            const resultado = await cliente.query("SELECT * FROM clientes ORDER BY preço ASC");
+            const resultado = await cliente.query("SELECT * FROM clientes ORDER BY id ASC");
             console.table(resultado.rows);
         }
         catch(ex){
@@ -103,7 +103,7 @@ class ClienteController
 
             console.log("Cliente removido da tabela na tabela!");
 
-            const resultado = await cliente.query("SELECT * FROM clientes ORDER BY preço ASC");
+            const resultado = await cliente.query("SELECT * FROM clientes ORDER BY id ASC");
             console.table(resultado.rows);
         }
         catch(ex){
@@ -187,7 +187,7 @@ class ClienteController
         }
     }
 
-    async reportProductInformation()
+    async reportClienteInformation()
     {
         let cliente = new Client(DBconfigs);
 

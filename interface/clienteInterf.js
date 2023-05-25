@@ -1,5 +1,5 @@
 const readline = require('readline');
-const ClienteController = require('./controller/C_Controller');
+const ClienteController = require('../controller/C_Controller');
 
 const clienteController = new ClienteController();
 
@@ -65,7 +65,7 @@ async function getClienteByID()
 
 async function getClientReport()
 {
-    clienteController.reportClientInformation();
+    clienteController.reportClienteInformation();
 }
 
 async function closeApplication()
