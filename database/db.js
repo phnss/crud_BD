@@ -21,7 +21,6 @@ const sql = fs.readFileSync('db.sql').toString();
 db.raw(sql)
   .then(() => {
     console.log('Database created successfully.');
-    // Further logic or application startup can be implemented here
   })
   .catch((error) => {
     console.error('An error occurred:', error);

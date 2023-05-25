@@ -1,5 +1,5 @@
 const readline = require('readline');
-const ProdutoController = require('./controller');
+const ProdutoController = require('./P_Controller');
 
 const produtoController = new ProdutoController();
 

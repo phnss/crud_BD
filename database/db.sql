@@ -1,9 +1,9 @@
 --Criando a database caso não exista uma 
-DROP DATABASE IF EXISTS Crud;
-CREATE DATABASE Crud; 
+--DROP DATABASE IF EXISTS Crud;
+--CREATE DATABASE Crud; 
 
 --Conectando ao database criado
-\c Crud;
+--\c Crud;
 
 DROP TABLE IF EXISTS produtos CASCADE;
 DROP TABLE IF EXISTS customers CASCADE;
@@ -18,11 +18,11 @@ CREATE TABLE IF NOT EXISTS produtos(
     CONSTRAINT pk_prod PRIMARY KEY (cod)
 );
 
-CREATE TABLE IF NOT EXISTS customers(
+CREATE TABLE IF NOT EXISTS clientes(
     id SERIAL,
     nome CHARACTER(30) NOT NULL,
     email CHARACTER(40) NOT NULL,
-    senha CHARACTER(10) NOT NULL,
+    senha CHARACTER(20) NOT NULL,
 
     CONSTRAINT pk_customers PRIMARY KEY(id) 
 );
