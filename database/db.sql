@@ -2,9 +2,6 @@
 --DROP DATABASE IF EXISTS Crud;
 --CREATE DATABASE Crud; 
 
---Conectando ao database criado
---\c Crud;
-
 DROP TABLE IF EXISTS produtos CASCADE;
 DROP TABLE IF EXISTS customers CASCADE;
 
@@ -26,3 +23,27 @@ CREATE TABLE IF NOT EXISTS clientes(
 
     CONSTRAINT pk_customers PRIMARY KEY(id) 
 );
+
+INSERT INTO produtos(cod, nome, preço, quantidade)
+VALUES
+    (1, 'maçã', 2.00, 10),
+    (2, 'pêra', 4.00, 5),
+    (3, 'abacaxi', 5.00, 12),
+    (4, 'maracujá', 4.00, 7),
+    (5, 'kiwi', 8.00, 5),
+    (6, 'alho', 2.50, 10),
+    (7, 'banana', 1.50, 10),
+    (8, 'mixirica', 3.50, 8),
+    (9, 'cebola', 10.00, 5),
+    (10 'abacate', 8.50, 10);
+
+INSERT INTO clientes(nome, email, senha)
+VALUES
+    ('Pedro Nogueira', 'pn@yahoo.com.br', 'pn123321'),
+    ('Diego', 'diego@yahoo.com.br', 'diego123321'),
+    ('Marcos', 'marco@yahoo.com.br', 'marcos123321'),
+    ('Marcelo', 'marcelo@yahoo.com.br', '123321'),
+    ('Arthur', 'arthur@yahoo.com.br', '1234321'),
+    ('Daniel', 'daniel@yahoo.com.br', 'daniel4321'),
+    ('Patricia', 'patricia@yahoo.com.br', '5432112');
+    

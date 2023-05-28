@@ -145,8 +145,8 @@ class ProdutoController
             await this.connect(cliente);                  
             
             const query = {
-                text: 'SELECT * FROM produtos WHERE nome = $1',
-                values: [name]
+                text: 'SELECT * FROM produtos WHERE nome LIKE $1',
+                values: ['%'+name+'%']
             };
 
             const resultado = await cliente.query(query);

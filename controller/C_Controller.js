@@ -145,8 +145,8 @@ class ClienteController
             await this.connect(cliente);                  
             
             const query = {
-                text: 'SELECT * FROM clientes WHERE nome = $1',
-                values: [name]
+                text: 'SELECT * FROM clientes WHERE nome LIKE $1',
+                values: ['%'+name+'%']
             };
 
             const resultado = await cliente.query(query);
