@@ -24,6 +24,15 @@ CREATE TABLE IF NOT EXISTS clientes(
     CONSTRAINT pk_customers PRIMARY KEY(id) 
 );
 
+CREATE TABLE IF NOT EXISTS sellers(
+    sellerId SERIAL,
+    name CHARACTER(30) NOT NULL,
+    email CHARACTER(40) NOT NULL,
+    password CHARACTER(20) NOT NULL,
+
+    CONSTRAINT pk_sellers PRIMARY KEY(sellerId) 
+);
+
 INSERT INTO produtos(cod, nome, preço, quantidade)
 VALUES
     (1, 'maçã', 2.00, 10),
@@ -35,7 +44,7 @@ VALUES
     (7, 'banana', 1.50, 10),
     (8, 'mixirica', 3.50, 8),
     (9, 'cebola', 10.00, 5),
-    (10 'abacate', 8.50, 10);
+    (10, 'abacate', 8.50, 10);
 
 INSERT INTO clientes(nome, email, senha)
 VALUES
@@ -47,3 +56,9 @@ VALUES
     ('Daniel', 'daniel@yahoo.com.br', 'daniel4321'),
     ('Patricia', 'patricia@yahoo.com.br', '5432112');
     
+INSERT INTO sellers(name, email, password)
+VALUES
+    ('Nogueira', 'pn@yahoo.com.br', '00001'),
+    ('Reis', 'diego@yahoo.com.br', '00002'),
+    ('Silva', 'daniel@yahoo.com.br', '00003'),
+    ('Santos', 'patricia@yahoo.com.br', '00004');
