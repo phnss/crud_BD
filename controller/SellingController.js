@@ -2,7 +2,7 @@ const DBconfigs = require('../configs/DBconfigs');
 const { Client } = require('pg');
 const fs = require('fs');
 
-class ClienteController 
+class SellingController 
 {
     constructor() 
     {
@@ -33,106 +33,107 @@ class ClienteController
         }
     }
 
-    async insertCliente(nome, email, senha)
+    async insertSelling(totalPrice, customerID, sellerId, paymentID)
     {
-        let cliente = new Client(DBconfigs);
+        let client = new Client(DBconfigs);
 
         try
         {    
-            await this.connect(cliente);
+            await this.connect(client);
 
             const query = {
-                text: 'INSERT INTO clientes(nome, email, senha) VALUES($1, $2, $3)',
-                values: [nome, email, senha]
+                text: 'INSERT INTO selling(totalPrice, customerID, sellerId, paymentID) VALUES($1, $2, $3, $4)',
+                values: [totalPrice, customerID, sellerId, paymentID]
             };
-            await cliente.query(query);
+            await client.query(query);
 
             console.log("Valor inserido na tabela!");
-            const resultado = await cliente.query("SELECT * FROM clientes ORDER BY id ASC");
+            const resultado = await client.query("SELECT * FROM selling ORDER BY id ASC");
             console.table(resultado.rows);
         }
         catch(ex){
-            console.log("Ocorreu erro no insertCliente. "+ex)    
+            console.log("Ocorreu erro no insertSelling. "+ex)    
         }   
         finally
         {
-            await this.disconnect(cliente);
+            await this.disconnect(client);
         }
     }
 
-    async updateCliente(nome, email, senha, id)
+    async updateSelling(totalPrice, customerID, sellerId, paymentID, id)
     {
-        let cliente = new Client(DBconfigs);
+        let client = new Client(DBconfigs);
 
         try
         {    
-            await this.connect(cliente);
+            await this.connect(client);
 
             const query = {
-                text: 'UPDATE clientes SET "nome" = $1, "email" = $2, "senha" = $3 WHERE "id" = $4',
+                text: 'UPDATE selling SET "totalPrice" = $1, "customerID" = $2,'+
+                      '"sellerId" = $3, "paymentID" = $4 WHERE "id" = $5',
                 values: [nome, email, senha, id]
             };
-            await cliente.query(query);
+            await client.query(query);
 
             console.log("Valor atualizado na tabela!");
-            const resultado = await cliente.query("SELECT * FROM clientes ORDER BY id ASC");
+            const resultado = await client.query("SELECT * FROM selling ORDER BY id ASC");
             console.table(resultado.rows);
         }
         catch(ex){
-            console.log("Ocorreu erro no updateCliente. "+ex)    
+            console.log("Ocorreu erro no updateSelling. "+ex)    
         }   
         finally
         {
-            await this.disconnect(cliente);
+            await this.disconnect(client);
         }
     }
 
-    async deleteCliente(id)
+    async deleteSelling(id)
     {
-        let cliente = new Client(DBconfigs);
+        let client = new Client(DBconfigs);
 
         try
         {
-            await this.connect(cliente);
+            await this.connect(client);
 
             const query = {
-                text: 'DELETE FROM clientes WHERE id = $1',
+                text: 'DELETE FROM selling WHERE id = $1',
                 values: [id]
             };
-            await cliente.query(query);
+            await client.query(query);
 
-            console.log("Cliente removido da tabela na tabela!");
+            console.log("Venda removida da tabela na tabela!");
 
-            const resultado = await cliente.query("SELECT * FROM clientes ORDER BY id ASC");
+            const resultado = await client.query("SELECT * FROM selling ORDER BY id ASC");
             console.table(resultado.rows);
         }
         catch(ex){
-            console.log("Ocorreu erro no deleteCliente. "+ex)    
+            console.log("Ocorreu erro no deleteSelling. "+ex)    
         } 
         finally
         {
-            await this.disconnect(cliente);
+            await this.disconnect(client);
         }
     }
 
-    async getCliente()
+    async getSelling()
     {
-        let cliente = new Client(DBconfigs);
+        let client = new Client(DBconfigs);
 
         try
         {   
-            await this.connect(cliente);             
+            await this.connect(client);             
             
-            const query = 'SELECT * FROM clientes ORDER BY id ASC';
-            const resultado = await cliente.query(query);
+            const query = 'SELECT * FROM selling ORDER BY id ASC';
+            const resultado = await client.query(query);
             console.table(resultado.rows);
         }
         catch(ex){
-            console.log("Ocorreu erro no getCliente. "+ex)    
+            console.log("Ocorreu erro no getSelling. "+ex)    
         }
         finally
         {
-            await this.disconnect(cliente);
+            await this.disconnect(client);
         }
     }
 
@@ -212,56 +213,6 @@ class ClienteController
         }
     }
 
-    async getFlamenguistas()
-    {
-        let client = new Client(DBconfigs);
-
-        try
-        {   
-            await this.connect(client);    
-            
-            const query = {
-                text: 'SELECT * FROM clientes WHERE isFlamengo = $1',
-                values: [1]
-            };
-
-            const resultado = await client.query(query);
-            console.table(resultado.rows);
-        }
-        catch(ex){
-            console.log("Ocorreu erro no getFlamenguistas. "+ex)    
-        }
-        finally
-        {
-            await this.disconnect(client);
-        }
-    }
-
-    async getOnePieceFans()
-    {
-        let client = new Client(DBconfigs);
-
-        try
-        {   
-            await this.connect(client);    
-            
-            const query = {
-                text: 'SELECT * FROM clientes WHERE watchOnePiece = $1',
-                values: [1]
-            };
-
-            const resultado = await client.query(query);
-            console.table(resultado.rows);
-        }
-        catch(ex){
-            console.log("Ocorreu erro no getOnePieceFans. "+ex)    
-        }
-        finally
-        {
-            await this.disconnect(client);
-        }
-    }
-
     async reportClienteInformation()
     {
         let cliente = new Client(DBconfigs);
@@ -295,4 +246,4 @@ class ClienteController
     }
 }
 
-module.exports = ClienteController;
+module.exports = SellingController;

@@ -68,6 +68,16 @@ async function getClientReport()
     clienteController.reportClienteInformation();
 }
 
+async function getFlamenguistas()
+{
+    await clienteController.getFlamenguistas();
+}
+
+async function getOnePieceFans()
+{
+    await clienteController.getOnePieceFans();
+}
+
 async function closeApplication()
 {
     console.log('Exiting...');
@@ -88,8 +98,10 @@ async function printMenuOptions()
     console.log('5. Get Client by name');
     console.log('6. Get Client by email');
     console.log('7. Get Client by ID');
-    console.log('8. Report about Client')
-    console.log('9. Exit');
+    console.log('8. Report about Client');
+    console.log('9. Get Flamenguistas');
+    console.log('10. Get One Piece Fans');
+    console.log('11. Exit');
 }
 
 async function main() 
@@ -130,6 +142,12 @@ async function main()
                 await getClientReport();
                 break;
             case '9':
+                await getFlamenguistas();
+                break;
+            case '10':
+                await getOnePieceFans();
+                break;
+            case '11':
                 await closeApplication();  
                 return;  
             default:

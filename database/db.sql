@@ -20,6 +20,8 @@ CREATE TABLE IF NOT EXISTS clientes(
     nome CHARACTER(30) NOT NULL,
     email CHARACTER(40) NOT NULL,
     senha CHARACTER(20) NOT NULL,
+    isFlamengo BIT NOT NULL,
+    watchOnePiece BIT NOT NULL,
 
     CONSTRAINT pk_customers PRIMARY KEY(id) 
 );
@@ -46,15 +48,15 @@ VALUES
     (9, 'cebola', 10.00, 5),
     (10, 'abacate', 8.50, 10);
 
-INSERT INTO clientes(nome, email, senha)
+INSERT INTO clientes(nome, email, senha, isFlamengo, watchOnePiece)
 VALUES
-    ('Pedro Nogueira', 'pn@yahoo.com.br', 'pn123321'),
-    ('Diego', 'diego@yahoo.com.br', 'diego123321'),
-    ('Marcos', 'marco@yahoo.com.br', 'marcos123321'),
-    ('Marcelo', 'marcelo@yahoo.com.br', '123321'),
-    ('Arthur', 'arthur@yahoo.com.br', '1234321'),
-    ('Daniel', 'daniel@yahoo.com.br', 'daniel4321'),
-    ('Patricia', 'patricia@yahoo.com.br', '5432112');
+    ('Pedro Nogueira', 'pn@yahoo.com.br', 'pn123321', '0', '0'),
+    ('Diego', 'diego@yahoo.com.br', 'diego123321', '0', '1'),
+    ('Marcos', 'marco@yahoo.com.br', 'marcos123321', '1', '0'),
+    ('Marcelo', 'marcelo@yahoo.com.br', '123321', '1', '1'),
+    ('Arthur', 'arthur@yahoo.com.br', '1234321', '0', '1'),
+    ('Daniel', 'daniel@yahoo.com.br', 'daniel4321', '1', '0'),
+    ('Patricia', 'patricia@yahoo.com.br', '5432112', '1', '1');
     
 INSERT INTO sellers(name, email, password)
 VALUES
