@@ -1,0 +1,35 @@
+const Customer = require('./customer.js');
+const Produto = require('./produto.js');
+const ClienteController = require('./produto.js');
+
+class PriceHandler
+{
+    constructor(){}
+
+    calculatePrice(customer, produtos)
+    {
+        let price = 0;
+        for (let i = 0; i < produtos.length; i++) 
+        {
+            price += produtos[i].preco * produtos[i].quantidade;
+        }
+
+        price -= this.calculateDiscount(customer, price);
+        return price;
+    }
+
+    // Has 10 percent off case:
+    // isFlamengo is true
+    // watchOnePiece is true
+    // is from 'Sousa'
+    calculateDiscount(customer, totalPrice)
+    {
+        let hasDiscount = customer.getIsFlamengo() 
+                          || customer.getWatchOnePiece()
+                          || customer.getAddress() == 'Sousa';
+
+        return (hasDiscount == true ? totalPrice*0.1 : 0);
+    }
+};
+
+module.exports = PriceHandler;

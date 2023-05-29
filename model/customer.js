@@ -1,9 +1,10 @@
 class Customer {
-    constructor(id, nome, email, senha, isFlamengo, watchOnePiece) {
+    constructor(id, nome, email, senha, address, isFlamengo, watchOnePiece) {
       this.id = id;
       this.nome = nome;
       this.email = email;
       this.senha = senha;
+      this.address = address;
       this.isFlamengo = isFlamengo;
       this.watchOnePiece = watchOnePiece;
     }
@@ -40,7 +41,7 @@ class Customer {
     setSenha(senha) {
       this.senha = senha;
     }
-
+  
     getIsFlamengo()
     {
       return this.isFlamengo;
@@ -49,6 +50,11 @@ class Customer {
     getWatchOnePiece()
     {
       return this.watchOnePiece;
+    }
+
+    getAddress()
+    {
+      return this.address == 'Sousa';
     }
   }
 
