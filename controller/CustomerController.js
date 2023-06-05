@@ -2,7 +2,7 @@ const DBconfigs = require('../configs/DBconfigs');
 const { Client } = require('pg');
 const fs = require('fs');
 
-class ClienteController 
+class CustomerController 
 {
     constructor() 
     {
@@ -295,4 +295,4 @@ class ClienteController
     }
 }
 
-module.exports = ClienteController;
+module.exports = CustomerController;

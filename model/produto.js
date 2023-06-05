@@ -4,6 +4,7 @@ class Produto {
       this.nome = nome;
       this.preco = preco;
       this.quantidade = quantidade;
+      this.updateTotal();
     }
   
     // Getter for cod
@@ -29,6 +30,7 @@ class Produto {
     // Setter for preco
     setPreco(preco) {
       this.preco = preco;
+      this.updateTotal();
     }
     // Getter for quantidade
     getQuantidade() {
@@ -37,6 +39,11 @@ class Produto {
     // Setter for quantidade
     setQuantidade(quantidade) {
       this.quantidade = quantidade;
+      this.updateTotal();
+    }
+    updateTotal()
+    {
+      this.total = this.preco*this.quantidade;
     }
   }
 

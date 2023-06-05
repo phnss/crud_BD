@@ -8,7 +8,7 @@ class Customer {
       this.isFlamengo = isFlamengo;
       this.watchOnePiece = watchOnePiece;
     }
-  
+
     // Getter for id
     getId() {
       return this.id;
