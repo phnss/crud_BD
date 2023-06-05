@@ -5,7 +5,7 @@ const SellerController = require('./controller/SellerController');
 const Cart = require('./model/cart');
 const Produto = require('./model/produto');
 
-function main()
+function testCart()
 {
     cart = new Cart();
 
@@ -17,10 +17,3 @@ function main()
 
     console.table(cart.getProducts())
 }
-
-main();
-
-// var t = []
-// t.push({name: 'abc', age: '44', location: 'india', phone: 56654345})
-// t.push({name: 'abc', age: '44', location: 'india', phone: 56654345})
-// console.table(t);

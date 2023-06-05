@@ -1,5 +1,5 @@
 const readline = require('readline');
-const ClienteController = require('../controller/C_Controller');
+const ClienteController = require('../controller/CustomerController');
 
 const clienteController = new ClienteController();
 
