@@ -1,132 +1,117 @@
 const readline = require('readline');
 const SellerController = require('../controller/SellerController');
+const App = require('../app')
 
-const sellerController = new SellerController();
-
-const rli = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
-
-function promptUserInput(question) 
+class SellerInterface
 {
-    return new Promise((resolve) => {
-        rli.question(question, (answer) => {
-        resolve(answer);
-        });
-    });
-}
-
-async function insertSeller()
-{
-    const name = await promptUserInput('Enter Seller name: ');
-    const email = await promptUserInput('Enter Seller email: ');
-    const password = await promptUserInput('Enter Seller password: ');
-    await sellerController.insertSeller(name, email, password);
-}
-
-async function updateSeller()
-{
-    const updateID = await promptUserInput('Enter the ID of the Seller to update: ');
-    const updateName = await promptUserInput('Enter the new name for the seller: ');
-    const updateEmail = await promptUserInput('Enter the new email for the seller: ');
-    const updatePassword = await promptUserInput('Enter the new senha for the seller: ');
-    await sellerController.updateSeller(updateName, updateEmail, updatePassword, updateID);
-}
-
-async function deleteSeller()
-{
-    const id = await promptUserInput('Enter the ID of the Seller to delete: ');
-    await sellerController.deleteSeller(id);
-}
-
-async function listAllSellers()
-{
-    await sellerController.getSellers();
-}
-
-async function getSellerByName()
-{
-    const searchName = await promptUserInput('Enter the name of the Seller to search for: ');
-    await sellerController.getSellerByName(searchName);
-}
-
-async function getSellerByEmail()
-{
-    const email = await promptUserInput('Enter the Email of the Seller: ');
-    await sellerController.getSellerByEmail(email);
-}
-
-async function getSellerByID()
-{
-    const id = await promptUserInput('Enter the id of the Seller: ');
-    await sellerController.getSellerByID(id);
-}
-
-async function closeApplication()
-{
-    console.log('Exiting...');
-    rli.close();
-}
-
-async function invalidCommand()
-{
-    console.log('Invalid command. Please enter a valid command number.');
-}
-
-async function printMenuOptions()
-{
-    console.log('1. Insert a new Seller');
-    console.log('2. Update a Seller');
-    console.log('3. Delete a Seller');
-    console.log('4. List all Seller');
-    console.log('5. Get Seller by name');
-    console.log('6. Get Seller by email');
-    console.log('7. Get Seller by ID');
-    console.log('8. Exit');
-}
-
-async function main() 
-{
-    console.log('*** Juice Store ***');
-    console.log('[By Diego Reis and Pedro Nogueira]\n');
-
-    while (true) 
+    constructor()
     {
-        await printMenuOptions();
+        this.sellerController = new SellerController();
+    }
 
-        const command = await promptUserInput('Enter a command number: ');
+    async insertSeller()
+    {
+        const name = await App.promptUserInput('Enter Seller name: ');
+        const email = await App.promptUserInput('Enter Seller email: ');
+        const password = await App.promptUserInput('Enter Seller password: ');
+        await this.sellerController.insertSeller(name, email, password);
+    }
+    
+    async updateSeller()
+    {
+        const updateID = await App.promptUserInput('Enter the ID of the Seller to update: ');
+        const updateName = await App.promptUserInput('Enter the new name for the seller: ');
+        const updateEmail = await App.promptUserInput('Enter the new email for the seller: ');
+        const updatePassword = await App.promptUserInput('Enter the new senha for the seller: ');
+        await this.sellerController.updateSeller(updateName, updateEmail, updatePassword, updateID);
+    }
+    
+    async deleteSeller()
+    {
+        const id = await App.promptUserInput('Enter the ID of the Seller to delete: ');
+        await this.sellerController.deleteSeller(id);
+    }
+    
+    async listAllSellers()
+    {
+        await this.sellerController.getSellers();
+    }
+    
+    async getSellerByName()
+    {
+        const searchName = await App.promptUserInput('Enter the name of the Seller to search for: ');
+        await this.sellerController.getSellerByName(searchName);
+    }
+    
+    async getSellerByEmail()
+    {
+        const email = await App.promptUserInput('Enter the Email of the Seller: ');
+        await this.sellerController.getSellerByEmail(email);
+    }
+    
+    async getSellerByID()
+    {
+        const id = await App.promptUserInput('Enter the id of the Seller: ');
+        await this.sellerController.getSellerByID(id);
+    }
 
-        switch (command) 
+    async printMenuOptions()
+    {
+        console.log('1. Insert a new Seller');
+        console.log('2. Update a Seller');
+        console.log('3. Delete a Seller');
+        console.log('4. List all Seller');
+        console.log('5. Get Seller by name');
+        console.log('6. Get Seller by email');
+        console.log('7. Get Seller by ID');
+        console.log('8. Back');
+    }
+    
+    async run() 
+    {
+        while (true) 
         {
-            case '1':
-                await insertSeller();
-                break;
-            case '2':
-                await updateSeller();
-                break;
-            case '3':
-                await deleteSeller();
-                break;
-            case '4':
-                await listAllSellers();
-                break;
-            case '5':
-                await getSellerByName();
-                break;
-            case '6':
-                await getSellerByEmail();
-                break;
-            case '7':
-                await getSellerByID();
-                break;
-            case '8':
-                await closeApplication();  
-                return;  
-            default:
-                await invalidCommand();
+            console.clear();
+            console.log('[SELLER MENU]');
+            await this.printMenuOptions();
+    
+            const command = await App.promptUserInput('Enter a command number: ');
+    
+            switch (command) 
+            {
+                case '1':
+                    await this.insertSeller();
+                    break;
+                case '2':
+                    await this.updateSeller();
+                    break;
+                case '3':
+                    await this.deleteSeller();
+                    break;
+                case '4':
+                    await this.listAllSellers();
+                    await App.waitKey();
+                    break;
+                case '5':
+                    await this.getSellerByName();
+                    await App.waitKey();
+                    break;
+                case '6':
+                    await this.getSellerByEmail();
+                    await App.waitKey();
+                    break;
+                case '7':
+                    await this.getSellerByID();
+                    await App.waitKey();
+                    break;
+                case '8':
+                    //await this.closeApplication();  
+                    return;  
+                default:
+                    await App.invalidCommand();
+            }
         }
     }
-}
+};
 
-main();
+module.exports = SellerInterface;

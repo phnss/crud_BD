@@ -1,5 +1,6 @@
 const readline = require('readline');
 const ProdutoController = require('../controller/P_Controller');
+const Cart = require('../model/cart');
 
 const produtoController = new ProdutoController();
 
@@ -90,21 +91,58 @@ function isSellerLoginValid()
     return true;
 }
 
+async function displayCartItems(cart)
+{
+    console.table(cart.getProdutos());
+}
+
+async function displayCartItems(cart)
+{
+    console.table(cart.getProdutos());
+}
+
+
+async function finishPayment(cart)
+{
+    console.log("Payment method not implemented yet.");
+}
+
+async function goToPayment(cart)
+{
+    if(!isCustomerLoginValid())
+        console.log("Customer login is invalid.");
+    else if(!isSellerLoginValid())
+        console.log("Seller login is invalid.");
+    else
+        finishPayment(cart);
+}
+
 async function printMenuOptions()
 {
     console.log('1. Add product to cart');
     console.log('2. Remove product from cart');
     console.log('3. See cart items');
     console.log('4. Go to payment');
-    console.log(`5. ${isCustomerLoginValid() ? 'Log out' : 'Log in'}(customer)`);
-    console.log(`6. ${isSellerLoginValid() ? 'Log out' : 'Log in'}(seller)`);
-    console.log('7. Exit');
+        console.log(`5. ${isCustomerLoginValid() ? 'Log out' : 'Log in'}(customer)`);
+        console.log(`6. ${isSellerLoginValid() ? 'Log out' : 'Log in'}(seller)`);
+        console.log(`7. Create user (customer)`);
+        console.log(`8. Create user (seller)`);
+    console.log(`9. See all products available`);
+    console.log('10. Exit');
+}
+
+async function printHeader()
+{
+    console.log('*** Juice Store ***');
+    console.log('[By Diego Reis and Pedro Nogueira]\n');
 }
 
 async function main() 
 {
-    console.log('*** Juice Store ***');
-    console.log('[By Diego Reis and Pedro Nogueira]\n');
+    await printHeader();
+
+    cart = new Cart();
+    productController = new ProdutoController();
 
     while (true) 
     {
@@ -135,7 +173,7 @@ async function main()
             case '7':
                 await getProductReport();
                 break;
-            case '8':
+            case '10':
                 await closeApplication();  
                 return;  
             default:
