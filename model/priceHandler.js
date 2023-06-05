@@ -6,6 +6,8 @@ class PriceHandler
 {
     constructor(){}
 
+    static get DiscountPercent() { return 0.1; }
+
     calculatePrice(customer, produtos)
     {
         let price = 0;
@@ -28,7 +30,7 @@ class PriceHandler
                           || customer.getWatchOnePiece()
                           || customer.getAddress() == 'Sousa';
 
-        return (hasDiscount == true ? totalPrice*0.1 : 0);
+        return (hasDiscount == true ? totalPrice*PriceHandler.DiscountPercent : 0);
     }
 };
 
