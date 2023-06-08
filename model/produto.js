@@ -36,6 +36,18 @@ class Produto {
     getQuantidade() {
       return this.quantidade;
     }
+
+    increaseQuantity()
+    {
+      this.setQuantidade(this.getQuantidade()+1);
+    }
+
+    decreaseQuantity()
+    {
+      if(this.getQuantidade() > 0)
+        this.setQuantidade(this.getQuantidade()-1);
+    }
+
     // Setter for quantidade
     setQuantidade(quantidade) {
       this.quantidade = quantidade;

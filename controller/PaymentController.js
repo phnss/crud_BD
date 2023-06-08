@@ -44,13 +44,13 @@ class PaymentController
             await this.connect(client);
 
             const query = {
-                text: 'INSERT INTO selling(totalPrice, customerID, sellerId, paymentID) VALUES($1, $2, $3, $4)',
+                text: 'INSERT INTO payments(totalPrice, customerID, sellerId, paymentID) VALUES($1, $2, $3, $4)',
                 values: [totalPrice, customerID, sellerId, paymentID]
             };
             await client.query(query);
 
             console.log("Valor inserido na tabela!");
-            const resultado = await client.query("SELECT * FROM selling ORDER BY id ASC");
+            const resultado = await client.query("SELECT * FROM payments ORDER BY id ASC");
             console.table(resultado.rows);
         }
         catch(ex){
@@ -62,7 +62,7 @@ class PaymentController
         }
     }
 
-    async updateSelling(totalPrice, customerID, sellerId, paymentID, id)
+    async updatePayment(totalPrice, customerID, sellerId, paymentID, id)
     {
         let client = new Client(DBconfigs);
 
@@ -71,18 +71,18 @@ class PaymentController
             await this.connect(client);
 
             const query = {
-                text: 'UPDATE selling SET "totalPrice" = $1, "customerID" = $2,'+
+                text: 'UPDATE payments SET "totalPrice" = $1, "customerID" = $2,'+
                       '"sellerId" = $3, "paymentID" = $4 WHERE "id" = $5',
                 values: [nome, email, senha, id]
             };
             await client.query(query);
 
             console.log("Valor atualizado na tabela!");
-            const resultado = await client.query("SELECT * FROM selling ORDER BY id ASC");
+            const resultado = await client.query("SELECT * FROM payments ORDER BY id ASC");
             console.table(resultado.rows);
         }
         catch(ex){
-            console.log("Ocorreu erro no updateSelling. "+ex)    
+            console.log("Ocorreu erro no updatePayment. "+ex)    
         }   
         finally
         {
@@ -90,7 +90,57 @@ class PaymentController
         }
     }
 
-    async deleteSelling(id)
+    async getPurchasesFromCustomer(customerID)
+    {
+        let client = new Client(DBconfigs);
+
+        try
+        {   
+            await this.connect(client);   
+            
+            const query = {
+                text: 'SELECT * FROM payments WHERE customerid = $1',
+                values: [customerID]
+            };
+
+            const result = await client.query(query);
+            console.table(result.rows);
+        }
+        catch(ex){
+            console.log("Ocorreu erro no getPurchasesFromCustomer. "+ex)    
+        }
+        finally
+        {
+            await this.disconnect(client);
+        }
+    }
+
+    async getSellerPurchases(sellerID)
+    {
+        let client = new Client(DBconfigs);
+
+        try
+        {   
+            await this.connect(client);   
+            
+            const query = {
+                text: 'SELECT * FROM payments WHERE sellerid = $1',
+                values: [sellerID]
+            };
+
+            const result = await client.query(query);
+            console.table(result.rows);
+        }
+        catch(ex){
+            console.log("Ocorreu erro no getSellerPurchases. "+ex)    
+        }
+        finally
+        {
+            await this.disconnect(client);
+        }
+    }
+
+    async deletePayment(id)
     {
         let client = new Client(DBconfigs);
 
@@ -99,18 +149,18 @@ class PaymentController
             await this.connect(client);
 
             const query = {
-                text: 'DELETE FROM selling WHERE id = $1',
+                text: 'DELETE FROM payments WHERE id = $1',
                 values: [id]
             };
             await client.query(query);
 
             console.log("Venda removida da tabela na tabela!");
 
-            const resultado = await client.query("SELECT * FROM selling ORDER BY id ASC");
+            const resultado = await client.query("SELECT * FROM payments ORDER BY id ASC");
             console.table(resultado.rows);
         }
         catch(ex){
-            console.log("Ocorreu erro no deleteSelling. "+ex)    
+            console.log("Ocorreu erro no deletePayment. "+ex)    
         } 
         finally
         {

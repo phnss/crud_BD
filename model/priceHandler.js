@@ -1,6 +1,6 @@
 const Customer = require('./customer.js');
 const Produto = require('./produto.js');
-const ClienteController = require('./produto.js');
+const Cart = require('./cart.js');
 
 class PriceHandler
 {
@@ -8,8 +8,9 @@ class PriceHandler
 
     static get DiscountPercent() { return 0.1; }
 
-    calculatePrice(customer, produtos)
+    calculatePrice(customer, cart)
     {
+        let produtos = cart.getProdutos();
         let price = 0;
         for (let i = 0; i < produtos.length; i++) 
         {
