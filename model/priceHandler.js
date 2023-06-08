@@ -28,7 +28,7 @@ class PriceHandler
     {
         let hasDiscount = customer.getIsFlamengo() 
                           || customer.getWatchOnePiece()
-                          || customer.getAddress() == 'Sousa';
+                          || customer.getAddress().toUpperCase() == 'SOUSA';
 
         return (hasDiscount == true ? totalPrice*PriceHandler.DiscountPercent : 0);
     }
