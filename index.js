@@ -44,7 +44,37 @@ async function printSellerMenu()
 
 async function printCustomerMenu()
 {
+    while (true) 
+    {
+        console.clear();
+        console.log('[CUSTOMER MENU]');
+        console.log('1. Login');
+        console.log('2. See profile data');
+        console.log('3. Update data');
+        console.log('5. Add to cart');
+        console.log('4. Back to main menu');
 
+        const command = await App.promptUserInput('Enter a command number: ');
+
+        switch (command) 
+        {
+            case '1':
+                cli = new SellerInterface();
+                await cli.run();
+                break;
+            case '2':
+                cli = new ProductInterface();
+                await cli.run();
+                break;
+            case '3':
+                cli = new CustomerInterface();
+                await cli.run();  
+            case '4':
+                return;  
+            default:
+                await App.invalidCommand();
+        }
+    }
 }
 
 async function main()

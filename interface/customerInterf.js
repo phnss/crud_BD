@@ -13,7 +13,17 @@ class CustomerInterface
         const nome = await App.promptUserInput('Enter client name: ');
         const email = await App.promptUserInput('Enter client email: ');
         const senha = await App.promptUserInput('Enter client senha: ');
-        await this.customerController.insertCliente(nome, email, senha);
+        const address = await App.promptUserInput('Enter client address: ');
+        const isFlamengo = await App.promptUserInput('Is client flamengo? (0: false, 1: true)');
+        const watchOnePiece = await App.promptUserInput('Client watch one piece? (0: false, 1: true)');
+        
+        if(isFlamengo != '0')
+            isFlamengo = '1'
+
+        if(watchOnePiece != '0')
+            watchOnePiece = '1'
+
+        await this.customerController.insertCliente(nome, email, senha, address, isFlamengo, watchOnePiece);
     }
 
     async updateCliente()
@@ -22,7 +32,17 @@ class CustomerInterface
         const updateNome = await App.promptUserInput('Enter the new name for the client: ');
         const updateEmail = await App.promptUserInput('Enter the new email for the client: ');
         const updateSenha = await App.promptUserInput('Enter the new senha for the client: ');
-        await this.customerController.updateCliente(updateNome, updateEmail, updateSenha, updateID);
+        const updateAddress = await App.promptUserInput('Enter client address: ');
+        let updateIsFlamengo = await App.promptUserInput('Is client flamengo? (0: false, 1: true): ');
+        let updateWatchOnePiece = await App.promptUserInput('Client watch one piece? (0: false, 1: true): ');
+        
+        if(updateIsFlamengo != '0')
+            updateIsFlamengo = '1'
+
+        if(updateWatchOnePiece != '0')
+            updateWatchOnePiece = '1'
+
+        await this.customerController.updateCliente(updateNome, updateEmail, updateSenha, updateAddress, updateIsFlamengo, updateWatchOnePiece, updateID);
     }
 
     async deleteCliente()
@@ -107,31 +127,24 @@ class CustomerInterface
                     break;
                 case '4':
                     await this.listAllClient();
-                    await App.waitKey();
                     break;
                 case '5':
                     await this.getClienteByName();
-                    await App.waitKey();
                     break;
                 case '6':
                     await this.getClienteByEmail();
-                    await App.waitKey();
                     break;
                 case '7':
                     await this.getClienteByID();
-                    await App.waitKey();
                     break;
                 case '8':
                     await this.getClientReport();
-                    await App.waitKey();
                     break;
                 case '9':
                     await this.getFlamenguistas();
-                    await App.waitKey();
                     break;
                 case '10':
                     await this.getOnePieceFans();
-                    await App.waitKey();
                     break;
                 case '11':
                     //await closeApplication();  
@@ -139,6 +152,8 @@ class CustomerInterface
                 default:
                     await App.invalidCommand();
             }
+
+            await App.waitKey();
         }
     }
 };

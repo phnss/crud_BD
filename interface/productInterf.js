@@ -95,19 +95,15 @@ class ProductInterface
                     break;
                 case '4':
                     await this.listAllProducts();
-                    await App.waitKey();
                     break;
                 case '5':
                     await this.getProductByName();
-                    await App.waitKey();
                     break;
                 case '6':
                     await this.getProductByCode();
-                    await App.waitKey();
                     break;
                 case '7':
                     await this.getProductReport();
-                    await App.waitKey();
                     break;
                 case '8':
                     //await closeApplication();  
@@ -115,6 +111,8 @@ class ProductInterface
                 default:
                     await App.invalidCommand();
             }
+
+            await App.waitKey();
         }
     }
 };

@@ -33,7 +33,7 @@ class CustomerController
         }
     }
 
-    async insertCliente(nome, email, senha)
+    async insertCliente(nome, email, senha, address, isFlamengo, watchOnePiece)
     {
         let cliente = new Client(DBconfigs);
 
@@ -42,8 +42,8 @@ class CustomerController
             await this.connect(cliente);
 
             const query = {
-                text: 'INSERT INTO clientes(nome, email, senha) VALUES($1, $2, $3)',
-                values: [nome, email, senha]
+                text: 'INSERT INTO clientes(nome, email, senha, address, isflamengo, watchonepiece) VALUES($1, $2, $3, $4, $5, $6)',
+                values: [nome, email, senha, address, isFlamengo, watchOnePiece]
             };
             await cliente.query(query);
 
@@ -60,7 +60,7 @@ class CustomerController
         }
     }
 
-    async updateCliente(nome, email, senha, id)
+    async updateCliente(nome, email, senha, address, isFlamengo, watchOnePiece, id)
     {
         let cliente = new Client(DBconfigs);
 
@@ -69,8 +69,8 @@ class CustomerController
             await this.connect(cliente);
 
             const query = {
-                text: 'UPDATE clientes SET "nome" = $1, "email" = $2, "senha" = $3 WHERE "id" = $4',
-                values: [nome, email, senha, id]
+                text: 'UPDATE clientes SET "nome" = $1, "email" = $2, "senha" = $3, "address" = $4, "isflamengo" = $5, "watchonepiece" = $6 WHERE "id" = $7',
+                values: [nome, email, senha, address, isFlamengo, watchOnePiece, id]
             };
             await cliente.query(query);
 

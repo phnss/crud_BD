@@ -90,19 +90,15 @@ class SellerInterface
                     break;
                 case '4':
                     await this.listAllSellers();
-                    await App.waitKey();
                     break;
                 case '5':
                     await this.getSellerByName();
-                    await App.waitKey();
                     break;
                 case '6':
                     await this.getSellerByEmail();
-                    await App.waitKey();
                     break;
                 case '7':
                     await this.getSellerByID();
-                    await App.waitKey();
                     break;
                 case '8':
                     //await this.closeApplication();  
@@ -110,6 +106,8 @@ class SellerInterface
                 default:
                     await App.invalidCommand();
             }
+
+            await App.waitKey();
         }
     }
 };
