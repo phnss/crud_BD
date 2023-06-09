@@ -89,8 +89,9 @@ class CustomerInterface
         await this.customerController.getOnePieceFans();
     }
 
-    async printMenuOptions()
+    async printAdminMenuOptions()
     {
+        console.log('[CUSTOMER MENU]');
         console.log('1. Insert a new Client');
         console.log('2. Update a Client');
         console.log('3. Delete a Client');
@@ -104,13 +105,12 @@ class CustomerInterface
         console.log('11. Back');
     }
 
-    async run() 
+    async runAdminMenu() 
     {
         while (true) 
         {
             console.clear();
-            console.log('[CUSTOMER MENU]');
-            await this.printMenuOptions();
+            await this.printAdminMenuOptions();
 
             const command = await App.promptUserInput('Enter a command number: ');
 

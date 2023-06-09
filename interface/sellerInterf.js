@@ -55,8 +55,9 @@ class SellerInterface
         await this.sellerController.getSellerByID(id);
     }
 
-    async printMenuOptions()
+    async printAdminMenuOptions()
     {
+        console.log('[SELLER ADMIN MENU]');
         console.log('1. Insert a new Seller');
         console.log('2. Update a Seller');
         console.log('3. Delete a Seller');
@@ -67,13 +68,12 @@ class SellerInterface
         console.log('8. Back');
     }
     
-    async run() 
+    async runAdminMenu() 
     {
         while (true) 
         {
             console.clear();
-            console.log('[SELLER MENU]');
-            await this.printMenuOptions();
+            await this.printAdminMenuOptions();
     
             const command = await App.promptUserInput('Enter a command number: ');
     

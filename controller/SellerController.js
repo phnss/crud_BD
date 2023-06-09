@@ -1,6 +1,6 @@
 const DBconfigs = require('../configs/DBconfigs');
 const { Client } = require('pg');
-const fs = require('fs');
+const Seller = require('../model/seller')
 
 class SellerController 
 {
@@ -213,6 +213,37 @@ class SellerController
         finally
         {
             await this.disconnect(client);
+        }
+    }
+
+    async loginSeller(email, password)
+    {
+        let client = new Client(DBconfigs);
+        let seller = new Seller();
+        seller.setId(-1);
+
+        try
+        {   
+            await this.connect(client);    
+            
+            const query = {
+                text: 'SELECT DISTINCT * FROM sellers WHERE email = $1 AND password = $2',
+                values: [email, password]
+            };
+
+            await client.query(query).then( ([rows,fields]) => {
+                seller.setId(rows[0]['sellerid']);
+                seller.setEmail(rows[0]['email']);
+                seller.setName(rows[0]['name']);
+            });
+        }
+        catch(ex){
+            console.log("Ocorreu erro ao logar. "+ex)    
+        }
+        finally
+        {
+            await this.disconnect(client);
+            return seller;
         }
     }
 }

@@ -60,8 +60,9 @@ class ProductInterface
         this.produtoController.reportProductInformation();
     }
 
-    async printMenuOptions()
+    async printAdminMenuOptions()
     {
+        console.log('[PRODUCT ADMIN MENU]');
         console.log('1. Insert a new product');
         console.log('2. Update a product');
         console.log('3. Delete a product');
@@ -72,13 +73,12 @@ class ProductInterface
         console.log('8. Back');
     }
 
-    async run() 
+    async runAdminMenu() 
     {
         while (true) 
         {
             console.clear();
-            console.log('[PRODUCT MENU]');
-            await this.printMenuOptions();
+            await this.printAdminMenuOptions();
 
             const command = await App.promptUserInput('Enter a command number: ');
 
