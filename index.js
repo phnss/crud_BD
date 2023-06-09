@@ -3,21 +3,31 @@ const SellerInterface = require('./interface/sellerInterf');
 const ProductInterface = require('./interface/productInterf');
 const CustomerInterface = require('./interface/customerInterf');
 const SellerController = require('./controller/SellerController');
+const CustomerController = require('./controller/CustomerController');
+const { user } = require('./configs/DBconfigs');
+const Customer = require('./model/customer');
 
 async function loginAsAdmin()
 {
     let controller = new SellerController();
     const email = await App.promptUserInput('Enter Seller Email: ');
     const password = await App.promptUserInput('Enter Seller Password: ');
-    const sellerData = await controller.loginSeller(email, password);
-    return sellerData;
+    return await controller.loginSeller(email, password);
+}
+
+async function loginAsUser()
+{
+    let controller = new CustomerController();
+    const email = await App.promptUserInput('Enter Customer Email: ');
+    const password = await App.promptUserInput('Enter Customer Password: ');
+    return await controller.loginCustomer(email, password);
 }
 
 async function runAdminMenu()
 {
     let sellerData = await loginAsAdmin();
 
-    if(sellerData.getId() == -1)
+    if(!isLogged(sellerData))
     {
         console.clear();
         console.log('Password or email is not valid...');
@@ -59,38 +69,82 @@ async function runAdminMenu()
     }
 }
 
+function isLogged(data)
+{
+    return data.getId() != -1;
+}
+
+async function printUnloggedUserMenu()
+{
+    console.clear();
+    console.log('[USER MENU (login to more features)]');
+    console.log('1. Login');
+    console.log('2. Add to cart');
+    console.log('3. Cancel and Back to main menu');
+}
+
+async function printLoggedUserMenu(userData)
+{
+    console.clear();
+    console.log('Welcome back, ' + userData.getNome() + '(' + userData.getEmail() + ')');
+    console.log('[USER MENU]');
+    console.log('1. See profile data');
+    console.log('2. See lasts purchases');
+    console.log('3. Add to cart');
+    console.log('4. Cancel and Back to main menu');
+}
+
 async function runUserMenu()
 {
+    let userData = new Customer();
+    userData.setId(-1);
+
     while (true) 
     {
-        console.clear();
-        console.log('[USER MENU]');
-        console.log('1. Login');
-        console.log('2. See profile data');
-        console.log('3. Update data');
-        console.log('5. Add to cart');
-        console.log('4. Back to main menu');
-
-        const command = await App.promptUserInput('Enter a command number: ');
-
-        switch (command) 
+        let command;
+        if(isLogged(userData))
         {
-            case '1':
-                cli = new SellerInterface();
-                await cli.run();
-                break;
-            case '2':
-                cli = new ProductInterface();
-                await cli.run();
-                break;
-            case '3':
-                cli = new CustomerInterface();
-                await cli.run();  
-            case '4':
-                return;  
-            default:
-                await App.invalidCommand();
+            printLoggedUserMenu(userData);
+            command = await App.promptUserInput('Enter a command number: ');
         }
+        else
+        {
+            printUnloggedUserMenu();
+            command = await App.promptUserInput('Enter a command number: ');
+
+            switch (command) 
+            {
+                case '1':
+                    userData = await loginAsUser();
+
+                    if(!isLogged(userData))
+                    {
+                        console.clear();
+                        console.log('Password or email is not valid...');
+                        await App.waitKey();
+                    }
+                    break;
+            }
+        }
+
+        // switch (command) 
+        // {
+        //     case '1':
+        //         cli = new SellerInterface();
+        //         await cli.run();
+        //         break;
+        //     case '2':
+        //         cli = new ProductInterface();
+        //         await cli.run();
+        //         break;
+        //     case '3':
+        //         cli = new CustomerInterface();
+        //         await cli.run();  
+        //     case '4':
+        //         return;  
+        //     default:
+        //         await App.invalidCommand();
+        // }
     }
 }
 

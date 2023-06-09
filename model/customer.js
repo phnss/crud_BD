@@ -47,14 +47,29 @@ class Customer {
       return this.isFlamengo;
     }
 
+    setIsFlamengo(value)
+    {
+      this.isFlamengo = value;
+    }
+
     getWatchOnePiece()
     {
       return this.watchOnePiece;
     }
 
+    setWatchOnePiece(value)
+    {
+      this.watchOnePiece = value;
+    }
+
     getAddress()
     {
-      return this.address == 'Sousa';
+      return this.address;
+    }
+
+    setAddress()
+    {
+      this.address = value;
     }
   }
 

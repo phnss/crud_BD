@@ -1,6 +1,8 @@
 const DBconfigs = require('../configs/DBconfigs');
 const { Client } = require('pg');
+const Customer = require('../model/customer');
 const fs = require('fs');
+const App = require('../app');
 
 class CustomerController 
 {
@@ -291,6 +293,42 @@ class CustomerController
         finally
         {
             await this.disconnect(cliente);
+        }
+    }
+
+    async loginCustomer(email, password)
+    {
+        let client = new Client(DBconfigs);
+        let customer = new Customer();
+        customer.setId(-1);
+
+        try
+        {   
+            await this.connect(client);    
+            
+            const query = {
+                text: 'SELECT DISTINCT * FROM Clientes WHERE email = $1 AND senha = $2',
+                values: [email, password]
+            };
+
+            const resp = await client.query(query);
+            if(resp.rowCount > 0 && resp.rows != [])
+            {
+                customer.setId(resp.rows[0].id);
+                customer.setEmail(resp.rows[0].email.trim());
+                customer.setNome(resp.rows[0].nome.trim());
+                customer.setAddress(resp.rows[0].address.trim());
+                customer.setIsFlamengo(resp.rows[0].isflamengo);
+                customer.setWatchOnePiece(resp.rows[0].watchonepiece);
+            }
+        }
+        catch(ex){
+            console.log("Ocorreu erro ao logar. "+ex)    
+        }
+        finally
+        {
+            await this.disconnect(client);
+            return customer;
         }
     }
 }

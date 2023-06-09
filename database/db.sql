@@ -57,6 +57,7 @@ VALUES
     ('Marcelo', 'marcelo@yahoo.com.br', '123321', 'Mangabeira', '1', '1'),
     ('Arthur', 'arthur@yahoo.com.br', '1234321', 'Sousa', '0', '1'),
     ('Daniel', 'daniel@yahoo.com.br', 'daniel4321', 'Bayuex', '1', '0'),
+    ('Cliente Preguiçoso', 'admin', 'admin', 'Sousa', '1', '1'),
     ('Patricia', 'patricia@yahoo.com.br', '5432112', 'Suzano', '1', '1');
     
 INSERT INTO sellers(name, email, password)

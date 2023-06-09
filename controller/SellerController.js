@@ -233,9 +233,12 @@ class SellerController
             };
 
             const resp = await client.query(query);
-            seller.setId(resp.rows[0].sellerid);
-            seller.setEmail(resp.rows[0].email.trim());
-            seller.setName(resp.rows[0].name.trim());
+            if(resp.rowCount > 0 && resp.rows != [])
+            {
+                seller.setId(resp.rows[0].sellerid);
+                seller.setEmail(resp.rows[0].email.trim());
+                seller.setName(resp.rows[0].name.trim());
+            }
         }
         catch(ex){
             console.log("Ocorreu erro ao logar. "+ex)    
