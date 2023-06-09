@@ -12,7 +12,7 @@ class CustomerInterface
     {
         const nome = await App.promptUserInput('Enter client name: ');
         const email = await App.promptUserInput('Enter client email: ');
-        const senha = await App.promptUserInput('Enter client senha: ');
+        const password = await App.promptUserInput('Enter client password: ');
         const address = await App.promptUserInput('Enter client address: ');
         const isFlamengo = await App.promptUserInput('Is client flamengo? (0: false, 1: true)');
         const watchOnePiece = await App.promptUserInput('Client watch one piece? (0: false, 1: true)');
@@ -23,7 +23,7 @@ class CustomerInterface
         if(watchOnePiece != '0')
             watchOnePiece = '1'
 
-        await this.customerController.insertCliente(nome, email, senha, address, isFlamengo, watchOnePiece);
+        await this.customerController.insertCliente(nome, email, password, address, isFlamengo, watchOnePiece);
     }
 
     async updateCliente()
@@ -31,7 +31,7 @@ class CustomerInterface
         const updateID = await App.promptUserInput('Enter the ID of the Client to update: ');
         const updateNome = await App.promptUserInput('Enter the new name for the client: ');
         const updateEmail = await App.promptUserInput('Enter the new email for the client: ');
-        const updateSenha = await App.promptUserInput('Enter the new senha for the client: ');
+        const updatePassword = await App.promptUserInput('Enter the new password for the client: ');
         const updateAddress = await App.promptUserInput('Enter client address: ');
         let updateIsFlamengo = await App.promptUserInput('Is client flamengo? (0: false, 1: true): ');
         let updateWatchOnePiece = await App.promptUserInput('Client watch one piece? (0: false, 1: true): ');
@@ -42,7 +42,7 @@ class CustomerInterface
         if(updateWatchOnePiece != '0')
             updateWatchOnePiece = '1'
 
-        await this.customerController.updateCliente(updateNome, updateEmail, updateSenha, updateAddress, updateIsFlamengo, updateWatchOnePiece, updateID);
+        await this.customerController.updateCliente(updateNome, updateEmail, updatePassword, updateAddress, updateIsFlamengo, updateWatchOnePiece, updateID);
     }
 
     async deleteCliente()
