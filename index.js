@@ -2,13 +2,33 @@ const App = require('./app');
 const SellerInterface = require('./interface/sellerInterf');
 const ProductInterface = require('./interface/productInterf');
 const CustomerInterface = require('./interface/customerInterf');
+const SellerController = require('./controller/SellerController');
 
-// Menus ------------
+async function loginAsAdmin()
+{
+    let controller = new SellerController();
+    const email = await App.promptUserInput('Enter Seller Email: ');
+    const password = await App.promptUserInput('Enter Seller Password: ');
+    const sellerData = await controller.loginSeller(email, password);
+    return sellerData;
+}
+
 async function runAdminMenu()
 {
+    let sellerData = await loginAsAdmin();
+
+    if(sellerData.getId() == -1)
+    {
+        console.clear();
+        console.log('Password or email is not valid...');
+        await App.waitKey();
+        return;
+    }
+
     while (true) 
     {
         console.clear();
+        console.log('Logged as ' + sellerData.name + '(' + sellerData.email + ')');
         console.log('[ADMIN MENU]');
         console.log('1. Manage Sellers');
         console.log('2. Manage Products');

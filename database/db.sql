@@ -64,4 +64,7 @@ VALUES
     ('Nogueira', 'pn@yahoo.com.br', '00001'),
     ('Reis', 'diego@yahoo.com.br', '00002'),
     ('Silva', 'daniel@yahoo.com.br', '00003'),
-    ('Santos', 'patricia@yahoo.com.br', '00004');
+    ('Davi', 'davi@davi', 'davisenha'),
+    ('Preguiçoso', 'admin@admin', 'admin'),
+    ('Preguiçoso', 'admin', 'admin'),
+    ('Santos', 'patricia@yahoo.com.br', '00005');

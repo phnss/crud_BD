@@ -1,6 +1,7 @@
 const readline = require('readline');
 const SellerController = require('../controller/SellerController');
-const App = require('../app')
+const App = require('../app');
+const Seller = require('../model/seller');
 
 class SellerInterface
 {

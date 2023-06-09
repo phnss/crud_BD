@@ -1,6 +1,7 @@
 const DBconfigs = require('../configs/DBconfigs');
 const { Client } = require('pg');
-const Seller = require('../model/seller')
+const Seller = require('../model/seller');
+const App = require('../app');
 
 class SellerController 
 {
@@ -231,11 +232,10 @@ class SellerController
                 values: [email, password]
             };
 
-            await client.query(query).then( ([rows,fields]) => {
-                seller.setId(rows[0]['sellerid']);
-                seller.setEmail(rows[0]['email']);
-                seller.setName(rows[0]['name']);
-            });
+            const resp = await client.query(query);
+            seller.setId(resp.rows[0].sellerid);
+            seller.setEmail(resp.rows[0].email.trim());
+            seller.setName(resp.rows[0].name.trim());
         }
         catch(ex){
             console.log("Ocorreu erro ao logar. "+ex)    
