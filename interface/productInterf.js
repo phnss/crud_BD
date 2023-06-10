@@ -14,16 +14,21 @@ class ProductInterface
         const nome = await App.promptUserInput('Enter product name: ');
         const preco = await App.promptUserInput('Enter product price: ');
         const qtd = await App.promptUserInput('Enter product quantity: ');
-        await this.produtoController.insertProduto(cod, nome, preco, qtd);
+        const categoria = await App.promptUserInput('Enter product category: ');
+        const origem = await App.promptUserInput('Enter product origin: ');
+        await this.produtoController.insertProduto(cod, nome, preco, qtd, categoria, origem);
     }
 
     async updateProduct()
     {
+        await this.listAllProducts();
         const updateCod = await App.promptUserInput('Enter the code of the product to update: ');
         const updateNome = await App.promptUserInput('Enter the new name for the product: ');
         const updatePreco = await App.promptUserInput('Enter the new price for the product: ');
         const updateQtd = await App.promptUserInput('Enter the new quantity for the product: ');
-        await this.produtoController.updateProduto(updateCod, updateNome, updatePreco, updateQtd);
+        const updateCategory = await App.promptUserInput('Enter the new category for the product: ');
+        const updateOrigin = await App.promptUserInput('Enter the new origin for the product: ');
+        await this.produtoController.updateProduto(updateCod, updateNome, updatePreco, updateQtd, updateCategory, updateOrigin);
     }
 
     async deleteProduct()
@@ -36,10 +41,17 @@ class ProductInterface
     {
         await this.produtoController.getProdutos();
     }
-    
+
     async listAllProductsWithLessThen5()
     {
         await this.produtoController.getProdutosWithLessThen5();
+    }
+
+    async listAllProductsWithinThePriceRange()
+    {
+        const upValue = await App.promptUserInput('Enter the upper limiting value of the product to search for: ');
+        const lowValue = await App.promptUserInput('Enter the lower limiting value of the product to search for: ');
+        await this.produtoController.getProductsWithinThePriceRange(upValue, lowValue);
     }
 
     async getProductByName()
@@ -52,6 +64,18 @@ class ProductInterface
     {
         const code = await App.promptUserInput('Enter the code of the product: ');
         await this.produtoController.getProdutoByCode(code);
+    }
+
+    async getProductByCategory()
+    {
+        const searchCategory = await App.promptUserInput('Enter the category of the product to search for: ');
+        await this.produtoController.getProdutoByCategory(searchCategory);
+    }
+
+    async getProductByOrigin()
+    {
+        const searchOrigin = await App.promptUserInput('Enter the origin of the product to search for: ');
+        await this.produtoController.getProdutoByOrigin(searchOrigin);
     }
 
     async getProductById()
@@ -73,10 +97,13 @@ class ProductInterface
         console.log('3. Delete a product');
         console.log('4. List all products');
         console.log('5. List all products with less than 5 quantity');
-        console.log('6. Get product by name');
-        console.log('7. Get product by code');
-        console.log('8. Report about products')
-        console.log('9. Back');
+        console.log('6. List all products within the price range');
+        console.log('7. Get product by name');
+        console.log('8. Get product by code');
+        console.log('9. Get product by category');
+        console.log('10. Get product by origin');
+        console.log('11. Report about products')
+        console.log('12. Back');
     }
 
     async runAdminMenu() 
@@ -106,15 +133,24 @@ class ProductInterface
                     await this.listAllProductsWithLessThen5();
                     break;
                 case '6':
-                    await this.getProductByName();
+                    await this.listAllProductsWithinThePriceRange();
                     break;
                 case '7':
-                    await this.getProductByCode();
+                    await this.getProductByName();
                     break;
                 case '8':
-                    await this.getProductReport();
+                    await this.getProductByCode();
                     break;
                 case '9':
+                    await this.getProductByCategory();
+                    break;
+                case '10':
+                    await this.getProductByOrigin();
+                    break;
+                case '11':
+                    await this.getProductReport();
+                    break;
+                case '12':
                     //await closeApplication();  
                     return;  
                 default:

@@ -33,7 +33,7 @@ class ProdutoController
         }
     }
 
-    async insertProduto(cod, nome, preco, qtd)
+    async insertProduto(cod, nome, preco, qtd, categoria, origem)
     {
         let cliente = new Client(DBconfigs);
 
@@ -42,8 +42,8 @@ class ProdutoController
             await this.connect(cliente);
 
             const query = {
-                text: 'INSERT INTO produtos(cod, nome, preço, quantidade) VALUES($1, $2, $3, $4)',
-                values: [cod, nome, preco, qtd]
+                text: 'INSERT INTO produtos(cod, nome, preço, quantidade, categoria, origem) VALUES($1, $2, $3, $4, $5, $6)',
+                values: [cod, nome, preco, qtd, categoria, origem]
             };
             await cliente.query(query);
 
@@ -60,7 +60,7 @@ class ProdutoController
         }
     }
 
-    async updateProduto(cod, nome, preco, qtd)
+    async updateProduto(cod, nome, preco, qtd, categoria, origem)
     {
         let cliente = new Client(DBconfigs);
 
@@ -69,8 +69,8 @@ class ProdutoController
             await this.connect(cliente);
 
             const query = {
-                text: 'UPDATE produtos SET "nome" = $1, "preço" = $2, "quantidade" = $3 WHERE "cod" = $4',
-                values: [nome, preco, qtd, cod]
+                text: 'UPDATE produtos SET "nome" = $1, "preço" = $2, "quantidade" = $3, "categoria" = $5, "origem" = $6  WHERE "cod" = $4',
+                values: [nome, preco, qtd, cod, categoria, origem]
             };
             await cliente.query(query);
 
@@ -157,6 +157,31 @@ class ProdutoController
         }
     }
 
+    async getProductsWithinThePriceRange(upValue, lowValue)
+    {
+        let cliente = new Client(DBconfigs);
+
+        try
+        {   
+            await this.connect(cliente);    
+            
+            const query = {
+                text: 'SELECT * FROM produtos WHERE preço >= $1 AND preço <= $2 ORDER BY cod ASC',
+                values: [upValue, lowValue]
+            };
+
+            const resultado = await cliente.query(query);
+            console.table(resultado.rows);
+        }
+        catch(ex){
+            console.log("Ocorreu erro no getProdutos. "+ex)    
+        }
+        finally
+        {
+            await this.disconnect(cliente);
+        }
+    }
+
     async getProdutoByName(name)
     {
         let cliente = new Client(DBconfigs);
@@ -207,7 +232,58 @@ class ProdutoController
             await this.disconnect(cliente);
         }
     }
-    
+
+    async getProdutoByCategory(category)
+    {
+        let cliente = new Client(DBconfigs);
+
+        try
+        {   
+            await this.connect(cliente);                  
+            
+            const query = {
+                text: 'SELECT * FROM produtos WHERE categoria LIKE $1 ORDER BY cod ASC',
+                values: ['%'+category+'%']
+            };
+
+            const resultado = await cliente.query(query);
+
+            console.table(resultado.rows);
+        }
+        catch(ex){
+            console.log("Ocorreu erro no getProdutos. "+ex)    
+        }
+        finally
+        {
+            await this.disconnect(cliente);
+        }
+    }
+
+    async getProdutoByOrigin(origin)
+    {
+        let cliente = new Client(DBconfigs);
+
+        try
+        {   
+            await this.connect(cliente);    
+            
+            const query = {
+                text: 'SELECT * FROM produtos WHERE origem = $1 ORDER BY cod ASC',
+                values: [origin]
+            };
+
+            const resultado = await cliente.query(query);
+            console.table(resultado.rows);
+        }
+        catch(ex){
+            console.log("Ocorreu erro no getProdutos. "+ex)    
+        }
+        finally
+        {
+            await this.disconnect(cliente);
+        }
+    }
+
     async reportProductInformation()
     {
         let cliente = new Client(DBconfigs);

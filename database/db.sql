@@ -12,6 +12,8 @@ CREATE TABLE IF NOT EXISTS produtos(
     nome CHARACTER(20) NOT NULL,
     preço NUMERIC(10,2) NOT NULL,
     quantidade INTEGER NOT NULL,
+    categoria CHARACTER(20) NOT NULL,
+    origem CHARACTER(20) NOT NULL,
 
     CONSTRAINT pk_prod PRIMARY KEY (cod)
 );
@@ -37,18 +39,18 @@ CREATE TABLE IF NOT EXISTS sellers(
     CONSTRAINT pk_sellers PRIMARY KEY(sellerId) 
 );
 
-INSERT INTO produtos(cod, nome, preço, quantidade) 
+INSERT INTO produtos(cod, nome, preço, quantidade, categoria, origem) 
 VALUES
-    (1, 'maçã', 2.00, 10),
-    (2, 'pêra', 4.00, 5),
-    (3, 'abacaxi', 5.00, 12),
-    (4, 'maracujá', 4.00, 7),
-    (5, 'kiwi', 8.00, 5),
-    (6, 'alho', 2.50, 10),
-    (7, 'banana', 1.50, 10),
-    (8, 'mixirica', 3.50, 8),
-    (9, 'cebola', 10.00, 5),
-    (10, 'abacate', 8.50, 10);
+    (1, 'maçã', 2.00, 10, 'fruta', 'São Paulo'),
+    (2, 'pêra', 4.00, 5, 'fruta', 'Rio de Janeiro'),
+    (3, 'abacaxi', 5.00, 12, 'fruta', 'Mari'),
+    (4, 'maracujá', 4.00, 7, 'fruta', 'Mari'),
+    (5, 'kiwi', 8.00, 5, 'fruta', 'João Pessoa'),
+    (6, 'alho', 2.50, 10, 'fruta', 'Mari'),
+    (7, 'banana', 1.50, 10, 'fruta', 'São Paulo'),
+    (8, 'mixirica', 3.50, 8, 'fruta', 'São Paulo'),
+    (9, 'cebola', 10.00, 5, 'fruta', 'Mari'),
+    (10, 'abacate', 8.50, 10, 'fruta', 'São Paulo');
 
 INSERT INTO clientes(nome, email, senha, address, isFlamengo, watchOnePiece)
 VALUES
