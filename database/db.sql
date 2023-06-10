@@ -3,7 +3,8 @@
 --CREATE DATABASE Crud; 
 
 DROP TABLE IF EXISTS produtos CASCADE;
-DROP TABLE IF EXISTS customers CASCADE;
+DROP TABLE IF EXISTS clientes CASCADE;
+DROP TABLE IF EXISTS sellers CASCADE;
 
 --Criando as tables usadas
 CREATE TABLE IF NOT EXISTS produtos(
@@ -36,7 +37,7 @@ CREATE TABLE IF NOT EXISTS sellers(
     CONSTRAINT pk_sellers PRIMARY KEY(sellerId) 
 );
 
-INSERT INTO produtos(cod, nome, preço, quantidade)
+INSERT INTO produtos(cod, nome, preço, quantidade) 
 VALUES
     (1, 'maçã', 2.00, 10),
     (2, 'pêra', 4.00, 5),
@@ -60,7 +61,7 @@ VALUES
     ('Cliente Preguiçoso', 'admin', 'admin', 'Sousa', '1', '1'),
     ('Patricia', 'patricia@yahoo.com.br', '5432112', 'Suzano', '1', '1');
     
-INSERT INTO sellers(name, email, password)
+INSERT INTO sellers(name, email, password) 
 VALUES
     ('Nogueira', 'pn@yahoo.com.br', '00001'),
     ('Reis', 'diego@yahoo.com.br', '00002'),
