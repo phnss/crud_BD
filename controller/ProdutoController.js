@@ -136,6 +136,27 @@ class ProdutoController
         }
     }
 
+    async getProdutosWithLessThen5()
+    {
+        let cliente = new Client(DBconfigs);
+
+        try
+        {   
+            await this.connect(cliente);             
+            
+            const query = 'SELECT * FROM produtos WHERE quantidade < 5 ORDER BY cod ASC';
+            const resultado = await cliente.query(query);
+            console.table(resultado.rows);
+        }
+        catch(ex){
+            console.log("Ocorreu erro no getProdutos. "+ex)    
+        }
+        finally
+        {
+            await this.disconnect(cliente);
+        }
+    }
+
     async getProdutoByName(name)
     {
         let cliente = new Client(DBconfigs);
@@ -186,7 +207,7 @@ class ProdutoController
             await this.disconnect(cliente);
         }
     }
-
+    
     async reportProductInformation()
     {
         let cliente = new Client(DBconfigs);

@@ -36,6 +36,11 @@ class ProductInterface
     {
         await this.produtoController.getProdutos();
     }
+    
+    async listAllProductsWithLessThen5()
+    {
+        await this.produtoController.getProdutosWithLessThen5();
+    }
 
     async getProductByName()
     {
@@ -67,10 +72,11 @@ class ProductInterface
         console.log('2. Update a product');
         console.log('3. Delete a product');
         console.log('4. List all products');
-        console.log('5. Get product by name');
-        console.log('6. Get product by code');
-        console.log('7. Report about products')
-        console.log('8. Back');
+        console.log('5. List all products with less than 5 quantity');
+        console.log('6. Get product by name');
+        console.log('7. Get product by code');
+        console.log('8. Report about products')
+        console.log('9. Back');
     }
 
     async runAdminMenu() 
@@ -97,15 +103,18 @@ class ProductInterface
                     await this.listAllProducts();
                     break;
                 case '5':
-                    await this.getProductByName();
+                    await this.listAllProductsWithLessThen5();
                     break;
                 case '6':
-                    await this.getProductByCode();
+                    await this.getProductByName();
                     break;
                 case '7':
-                    await this.getProductReport();
+                    await this.getProductByCode();
                     break;
                 case '8':
+                    await this.getProductReport();
+                    break;
+                case '9':
                     //await closeApplication();  
                     return;  
                 default:
