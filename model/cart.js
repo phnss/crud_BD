@@ -1,8 +1,12 @@
+const fs = require('fs');
+const PriceHandler = require('./priceHandler');
+
 class Cart 
 {
     constructor() 
     {
         this.items = []
+        this.priceHandler = new PriceHandler();
     }
   
     addProduct(product) 
@@ -24,6 +28,11 @@ class Cart
     getProducts()
     {
         return this.items;
+    }
+
+    getTotalPrice(customer)
+    {
+        return this.priceHandler.calculatePrice(customer, this);
     }
 }
 

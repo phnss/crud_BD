@@ -67,7 +67,7 @@ class Customer {
       return this.address;
     }
 
-    setAddress()
+    setAddress(value)
     {
       this.address = value;
     }

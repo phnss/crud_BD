@@ -1,5 +1,5 @@
 const Customer = require('./customer.js');
-const Produto = require('./produto.js');
+const Produto = require('./product.js');
 const Cart = require('./cart.js');
 
 class PriceHandler
@@ -10,15 +10,16 @@ class PriceHandler
 
     calculatePrice(customer, cart)
     {
-        let produtos = cart.getProdutos();
+        let produtos = cart.getProducts();
         let price = 0;
         for (let i = 0; i < produtos.length; i++) 
         {
             price += produtos[i].preco * produtos[i].quantidade;
         }
 
-        price -= this.calculateDiscount(customer, price);
-        return price;
+        let discount = this.calculateDiscount(customer, price);
+        price -= discount;
+        return [price, discount];
     }
 
     // Has 10 percent off case:

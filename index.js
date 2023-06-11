@@ -8,6 +8,7 @@ const { user } = require('./configs/DBconfigs');
 const Customer = require('./model/customer');
 const Cart = require('./model/cart');
 const Product = require('./model/product');
+const PriceHandler = require('./model/priceHandler');
 
 async function loginAsAdmin()
 {
@@ -86,7 +87,7 @@ async function printUnloggedUserMenu()
     console.log('4. Cancel and Back to main menu');
 }
 
-async function showCart(cart)
+async function showCart(userData, cart)
 {
     console.clear();
     let items = cart.getProducts();
@@ -101,6 +102,12 @@ async function showCart(cart)
     {
         console.log(items[i]);
     }
+
+    let totalPrice = cart.getTotalPrice(userData);
+    let finalPrice = totalPrice[0];
+    let discount = totalPrice[1];
+    console.log('Total price: ' + finalPrice.toFixed(2));
+    console.log('Discount: ' + discount.toFixed(2));
 }
 
 async function runUserUnloggedMenu(userData, cart)
@@ -125,7 +132,7 @@ async function runUserUnloggedMenu(userData, cart)
             await App.waitKey();
             return [false, userData, cart];
         case '3':
-            await showCart(cart);
+            await showCart(userData, cart);
             await App.waitKey();
             return [false, userData, cart];
         case '4':
@@ -169,7 +176,7 @@ async function runUserLoggedMenu(userData, cart)
             await App.waitKey();
             return [false, userData, cart];
         case '4':
-            await showCart(cart);
+            await showCart(userData, cart);
             await App.waitKey();
             return [false, userData, cart];
         case '5':
@@ -190,6 +197,7 @@ async function runUserMenu()
     }
 
     userData.setId(-1);
+    userData.setAddress('undefined');
 
     while (true) 
     {
