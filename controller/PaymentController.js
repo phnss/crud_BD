@@ -1,6 +1,7 @@
 const DBconfigs = require('../configs/DBconfigs');
 const { Client } = require('pg');
 const fs = require('fs');
+const App = require('../app');
 
 class PaymentController 
 {
@@ -35,7 +36,7 @@ class PaymentController
         }
     }
 
-    async insertPayment(totalPrice, customerID, sellerId, paymentID)
+    async insertPayment(totalPrice, customerID, sellerId, products)
     {
         let client = new Client(DBconfigs);
 
@@ -44,8 +45,8 @@ class PaymentController
             await this.connect(client);
 
             const query = {
-                text: 'INSERT INTO payments(totalPrice, customerID, sellerId, paymentID) VALUES($1, $2, $3, $4)',
-                values: [totalPrice, customerID, sellerId, paymentID]
+                text: 'INSERT INTO payments(totalprice, customerid, sellerId, products) VALUES($1, $2, $3, $4)',
+                values: [totalPrice, customerID, sellerId, products]
             };
             await client.query(query);
 
@@ -54,7 +55,8 @@ class PaymentController
             console.table(resultado.rows);
         }
         catch(ex){
-            console.log("Ocorreu erro no insertSelling. "+ex)    
+            console.log("Ocorreu erro no insertSelling. "+ex)   
+            await App.waitKey(); 
         }   
         finally
         {
@@ -62,7 +64,7 @@ class PaymentController
         }
     }
 
-    async updatePayment(totalPrice, customerID, sellerId, paymentID, id)
+    async updatePayment(totalPrice, customerID, sellerId, paymentID, products, id)
     {
         let client = new Client(DBconfigs);
 
@@ -71,9 +73,9 @@ class PaymentController
             await this.connect(client);
 
             const query = {
-                text: 'UPDATE payments SET "totalPrice" = $1, "customerID" = $2,'+
-                      '"sellerId" = $3, "paymentID" = $4 WHERE "id" = $5',
-                values: [nome, email, senha, id]
+                text: 'UPDATE payments SET "totalprice" = $1, "customerid" = $2,'+
+                      '"sellerid" = $3, "paymentid" = $4, "products" = $5 WHERE "id" = $6',
+                values: [totalPrice, customerID, sellerId, paymentID, products, id]
             };
             await client.query(query);
 
