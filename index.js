@@ -152,7 +152,8 @@ async function printLoggedUserMenu(userData)
     console.log('2. See lasts purchases');
     console.log('3. Add to cart');
     console.log('4. See cart');
-    console.log('5. Cancel and Back to main menu');
+    console.log('5. Finish Purchase');
+    console.log('6. Cancel and Back to main menu');
 }
 
 async function runUserLoggedMenu(userData, cart)
@@ -179,7 +180,7 @@ async function runUserLoggedMenu(userData, cart)
             await showCart(userData, cart);
             await App.waitKey();
             return [false, userData, cart];
-        case '5':
+        case '6':
             return [true, userData, cart];
         default:
             await App.invalidCommand();

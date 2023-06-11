@@ -35,7 +35,7 @@ class PaymentController
         }
     }
 
-    async insertPayment(totalPrice, customerID, sellerId, paymentID)
+    async insertPayment(totalPrice, customerID, sellerId, paymentID, products)
     {
         let client = new Client(DBconfigs);
 
@@ -44,8 +44,8 @@ class PaymentController
             await this.connect(client);
 
             const query = {
-                text: 'INSERT INTO payments(totalPrice, customerID, sellerId, paymentID) VALUES($1, $2, $3, $4)',
-                values: [totalPrice, customerID, sellerId, paymentID]
+                text: 'INSERT INTO payments(totalPrice, customerID, sellerId, paymentID, products) VALUES($1, $2, $3, $4, $5)',
+                values: [totalPrice, customerID, sellerId, paymentID, products]
             };
             await client.query(query);
 
@@ -62,7 +62,7 @@ class PaymentController
         }
     }
 
-    async updatePayment(totalPrice, customerID, sellerId, paymentID, id)
+    async updatePayment(totalPrice, customerID, sellerId, paymentID, products, id)
     {
         let client = new Client(DBconfigs);
 
@@ -72,8 +72,8 @@ class PaymentController
 
             const query = {
                 text: 'UPDATE payments SET "totalPrice" = $1, "customerID" = $2,'+
-                      '"sellerId" = $3, "paymentID" = $4 WHERE "id" = $5',
-                values: [nome, email, senha, id]
+                      '"sellerId" = $3, "paymentID" = $4, "products" = $5 WHERE "id" = $6',
+                values: [totalPrice, customerID, sellerId, paymentID, products, id]
             };
             await client.query(query);
 
