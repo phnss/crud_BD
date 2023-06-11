@@ -83,6 +83,35 @@ async function printUnloggedUserMenu()
     console.log('3. Cancel and Back to main menu');
 }
 
+async function runUserUnloggedMenu(userData)
+{
+    printUnloggedUserMenu(userData);
+    let command = await App.promptUserInput('Enter a command number: ');
+
+    switch (command) 
+    {
+        case '1':
+            userData = await loginAsUser();
+
+            if(!isLogged(userData))
+            {
+                console.clear();
+                console.log('Password or email is not valid...');
+                await App.waitKey();
+            }
+            return [false, userData];
+        case '2':
+            console.log('A FAZER CARRINHO...');
+            await App.waitKey();
+            return [false, userData];
+        case '3':
+            return [true, userData];
+        default:
+            await App.invalidCommand();
+            return [false, userData];
+    }
+}
+
 async function printLoggedUserMenu(userData)
 {
     console.clear();
@@ -94,6 +123,34 @@ async function printLoggedUserMenu(userData)
     console.log('4. Cancel and Back to main menu');
 }
 
+async function runUserLoggedMenu(userData)
+{
+    printLoggedUserMenu(userData);
+    let command = await App.promptUserInput('Enter a command number: ');
+
+    switch (command) 
+    {
+        case '1':
+            console.clear();
+            console.log('Nome: ' + userData.getNome())
+            console.log('Email: ' + userData.getEmail())
+            console.log('Address: ' + userData.getAddress())
+            console.log('Watch One Piece: ' + userData.getWatchOnePiece())
+            console.log('Is Flamengo: ' + userData.getIsFlamengo())
+            await App.waitKey();
+            return [false, userData];
+        case '3':
+            console.log('A FAZER CARRINHO...');
+            await App.waitKey();
+            return [false, userData];
+        case '4':
+            return [true, userData];
+        default:
+            await App.invalidCommand();
+            return [false, userData];
+    }
+}
+
 async function runUserMenu()
 {
     let userData = new Customer();
@@ -101,50 +158,23 @@ async function runUserMenu()
 
     while (true) 
     {
-        let command;
+        let _;
+        let shouldEndLoop;
         if(isLogged(userData))
         {
-            printLoggedUserMenu(userData);
-            command = await App.promptUserInput('Enter a command number: ');
+            _ = await runUserLoggedMenu(userData);
+            shouldEndLoop = _[0];
+            userData = _[1];
         }
         else
         {
-            printUnloggedUserMenu();
-            command = await App.promptUserInput('Enter a command number: ');
-
-            switch (command) 
-            {
-                case '1':
-                    userData = await loginAsUser();
-
-                    if(!isLogged(userData))
-                    {
-                        console.clear();
-                        console.log('Password or email is not valid...');
-                        await App.waitKey();
-                    }
-                    break;
-            }
+            _ = await runUserUnloggedMenu(userData);
+            shouldEndLoop = _[0];
+            userData = _[1];
         }
 
-        // switch (command) 
-        // {
-        //     case '1':
-        //         cli = new SellerInterface();
-        //         await cli.run();
-        //         break;
-        //     case '2':
-        //         cli = new ProductInterface();
-        //         await cli.run();
-        //         break;
-        //     case '3':
-        //         cli = new CustomerInterface();
-        //         await cli.run();  
-        //     case '4':
-        //         return;  
-        //     default:
-        //         await App.invalidCommand();
-        // }
+        if(shouldEndLoop == true)
+            return;
     }
 }
 
