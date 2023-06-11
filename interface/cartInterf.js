@@ -101,7 +101,6 @@ async function displayCartItems(cart)
     console.table(cart.getProdutos());
 }
 
-
 async function finishPayment(cart)
 {
     console.log("Payment method not implemented yet.");
