@@ -6,6 +6,8 @@ const SellerController = require('./controller/SellerController');
 const CustomerController = require('./controller/CustomerController');
 const { user } = require('./configs/DBconfigs');
 const Customer = require('./model/customer');
+const Cart = require('./model/cart');
+const Product = require('./model/product');
 
 async function loginAsAdmin()
 {
@@ -80,10 +82,28 @@ async function printUnloggedUserMenu()
     console.log('[USER MENU (login to more features)]');
     console.log('1. Login');
     console.log('2. Add to cart');
-    console.log('3. Cancel and Back to main menu');
+    console.log('3. See cart');
+    console.log('4. Cancel and Back to main menu');
 }
 
-async function runUserUnloggedMenu(userData)
+async function showCart(cart)
+{
+    console.clear();
+    let items = cart.getProducts();
+
+    if(items.length <= 0)
+    {
+        console.log('Cart is Empty...');
+        return;
+    }
+    
+    for(let i = 0; i < items.length; i++)
+    {
+        console.log(items[i]);
+    }
+}
+
+async function runUserUnloggedMenu(userData, cart)
 {
     printUnloggedUserMenu(userData);
     let command = await App.promptUserInput('Enter a command number: ');
@@ -99,16 +119,20 @@ async function runUserUnloggedMenu(userData)
                 console.log('Password or email is not valid...');
                 await App.waitKey();
             }
-            return [false, userData];
+            return [false, userData, cart];
         case '2':
             console.log('A FAZER CARRINHO...');
             await App.waitKey();
-            return [false, userData];
+            return [false, userData, cart];
         case '3':
-            return [true, userData];
+            await showCart(cart);
+            await App.waitKey();
+            return [false, userData, cart];
+        case '4':
+            return [true, userData, cart];
         default:
             await App.invalidCommand();
-            return [false, userData];
+            return [false, userData, cart];
     }
 }
 
@@ -120,10 +144,11 @@ async function printLoggedUserMenu(userData)
     console.log('1. See profile data');
     console.log('2. See lasts purchases');
     console.log('3. Add to cart');
-    console.log('4. Cancel and Back to main menu');
+    console.log('4. See cart');
+    console.log('5. Cancel and Back to main menu');
 }
 
-async function runUserLoggedMenu(userData)
+async function runUserLoggedMenu(userData, cart)
 {
     printLoggedUserMenu(userData);
     let command = await App.promptUserInput('Enter a command number: ');
@@ -138,22 +163,32 @@ async function runUserLoggedMenu(userData)
             console.log('Watch One Piece: ' + userData.getWatchOnePiece())
             console.log('Is Flamengo: ' + userData.getIsFlamengo())
             await App.waitKey();
-            return [false, userData];
+            return [false, userData, cart];
         case '3':
             console.log('A FAZER CARRINHO...');
             await App.waitKey();
-            return [false, userData];
+            return [false, userData, cart];
         case '4':
-            return [true, userData];
+            await showCart(cart);
+            await App.waitKey();
+            return [false, userData, cart];
+        case '5':
+            return [true, userData, cart];
         default:
             await App.invalidCommand();
-            return [false, userData];
+            return [false, userData, cart];
     }
 }
 
 async function runUserMenu()
 {
     let userData = new Customer();
+    let cart = new Cart();
+
+    for (let index = 0; index < 10; index++) {
+        cart.addProduct(new Product(index%3, index+'ia', index+1, 1));   
+    }
+
     userData.setId(-1);
 
     while (true) 
@@ -162,15 +197,17 @@ async function runUserMenu()
         let shouldEndLoop;
         if(isLogged(userData))
         {
-            _ = await runUserLoggedMenu(userData);
+            _ = await runUserLoggedMenu(userData, cart);
             shouldEndLoop = _[0];
             userData = _[1];
+            cart = _[2];
         }
         else
         {
-            _ = await runUserUnloggedMenu(userData);
+            _ = await runUserUnloggedMenu(userData, cart);
             shouldEndLoop = _[0];
             userData = _[1];
+            cart = _[2];
         }
 
         if(shouldEndLoop == true)
