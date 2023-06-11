@@ -1,5 +1,6 @@
 const App = require('../app')
 const PaymentController = require('../controller/PaymentController');
+const PaymentMethods = require('../model/paymentMethods')
 
 class PaymentInterface
 {
@@ -50,10 +51,9 @@ class PaymentInterface
     async makePayment(paymentMethod)
     {
         await this.paymentController.insertPayment(
-                                                    this.cart.getTotalPrice[0],
+                                                    this.cart.getTotalPrice(this.userdata)[0],
                                                     this.userdata.getId(),
                                                     this.seller.getId(),
-                                                    paymentMethod,
                                                     JSON.stringify(this.cart.getProducts())
                                                 );
     }
@@ -75,8 +75,11 @@ class PaymentInterface
             {
                 await this.makePayment(paymentMethod);
                 console.log('Payment Operation Finished for Method: ' + paymentMethod);
+                await App.waitKey();
             }
         }
     }
 
 };
+
+module.exports = PaymentInterface;

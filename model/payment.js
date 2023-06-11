@@ -1,11 +1,3 @@
-const PaymentMethods = {
-    Cartao: 1,
-    Boleto: 2,
-    Pix: 3,
-    Berries: 4,
-    Undefined: 404
-}
-
 class Payment
 {
     constructor(totalPrice, customerID, sellerId, paymentID)
@@ -16,3 +8,5 @@ class Payment
         this.paymentID = paymentID
     }
 }
+
+module.exports = Payment;

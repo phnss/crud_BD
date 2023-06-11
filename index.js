@@ -1,6 +1,6 @@
 const App = require('./app');
 const SellerInterface = require('./interface/sellerInterf');
-const ProductInterface = require('./interface/productInterf');
+const PaymentInterface = require('./interface/paymentInterf');
 const CustomerInterface = require('./interface/customerInterf');
 const SellerController = require('./controller/SellerController');
 const CustomerController = require('./controller/CustomerController');
@@ -180,6 +180,20 @@ async function runUserLoggedMenu(userData, cart)
             await showCart(userData, cart);
             await App.waitKey();
             return [false, userData, cart];
+        case '5':
+            let seller = await loginAsAdmin();
+
+            if(!isLogged(seller))
+            {
+                console.clear();
+                console.log("Email or Password does not match!");
+                await App.waitKey();
+                return [false, userData, cart];
+            }
+
+            let cli = new PaymentInterface(userData, cart, seller);
+            await cli.run();
+            return [true, userData, cart];
         case '6':
             return [true, userData, cart];
         default:

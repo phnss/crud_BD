@@ -5,6 +5,7 @@
 DROP TABLE IF EXISTS produtos CASCADE;
 DROP TABLE IF EXISTS clientes CASCADE;
 DROP TABLE IF EXISTS sellers CASCADE;
+DROP TABLE IF EXISTS payments CASCADE;
 
 --Criando as tables usadas
 CREATE TABLE IF NOT EXISTS produtos(
@@ -37,6 +38,16 @@ CREATE TABLE IF NOT EXISTS sellers(
     password CHARACTER(20) NOT NULL,
 
     CONSTRAINT pk_sellers PRIMARY KEY(sellerId) 
+);
+
+CREATE TABLE IF NOT EXISTS payments(
+    id SERIAL,
+    totalPrice NUMERIC(10,2) NOT NULL,
+    customerID INTEGER NOT NULL,
+    sellerID INTEGER NOT NULL,
+    products VARCHAR NOT NULL,
+
+    CONSTRAINT pk_payments PRIMARY KEY(id) 
 );
 
 INSERT INTO produtos(cod, nome, preço, quantidade, categoria, origem) 
