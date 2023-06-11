@@ -54,7 +54,7 @@ class PaymentInterface
                                                     this.userdata.getId(),
                                                     this.seller.getId(),
                                                     paymentMethod,
-                                                    this.cart.getProducts().toString()
+                                                    JSON.stringify(this.cart.getProducts())
                                                 );
     }
 
@@ -73,7 +73,8 @@ class PaymentInterface
 
             if(paymentMethod != PaymentMethods.Undefined)
             {
-                console.log('Payment Finished Sucessfull: ' + paymentMethod);
+                await this.makePayment(paymentMethod);
+                console.log('Payment Operation Finished for Method: ' + paymentMethod);
             }
         }
     }
