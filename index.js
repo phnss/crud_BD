@@ -172,6 +172,10 @@ async function runUserLoggedMenu(userData, cart)
             console.log('Is Flamengo: ' + userData.getIsFlamengo())
             await App.waitKey();
             return [false, userData, cart];
+        case '2':
+            interf = new PaymentInterface(userData, cart, null);
+            await interf.checkFinishedsPurshases(userData);
+            return [false, userData, cart];
         case '3':
             console.log('A FAZER CARRINHO...');
             await App.waitKey();
@@ -182,6 +186,7 @@ async function runUserLoggedMenu(userData, cart)
             return [false, userData, cart];
         case '5':
             let seller = await loginAsAdmin();
+            let paymentInterf = new PaymentInterface(userData, cart, seller);
 
             if(!isLogged(seller))
             {
@@ -191,8 +196,7 @@ async function runUserLoggedMenu(userData, cart)
                 return [false, userData, cart];
             }
 
-            let cli = new PaymentInterface(userData, cart, seller);
-            await cli.run();
+            await paymentInterf.run();
             return [true, userData, cart];
         case '6':
             return [true, userData, cart];

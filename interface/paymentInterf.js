@@ -58,6 +58,12 @@ class PaymentInterface
                                                 );
     }
 
+    async checkFinishedsPurshases(user)
+    {
+        await this.paymentController.getPurchasesFromCustomer(user.getId());
+        await App.waitKey();
+    }
+
     async run()
     {
         while (true) 
