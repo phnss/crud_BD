@@ -1,6 +1,7 @@
 const App = require('./app');
 const SellerInterface = require('./interface/sellerInterf');
 const PaymentInterface = require('./interface/paymentInterf');
+const ProductInterface = require('./interface/productInterf');
 const CustomerInterface = require('./interface/customerInterf');
 const SellerController = require('./controller/SellerController');
 const CustomerController = require('./controller/CustomerController');
@@ -77,16 +78,6 @@ function isLogged(data)
     return data.getId() != -1;
 }
 
-async function printUnloggedUserMenu()
-{
-    console.clear();
-    console.log('[USER MENU (login to more features)]');
-    console.log('1. Login');
-    console.log('2. Add to cart');
-    console.log('3. See cart');
-    console.log('4. Cancel and Back to main menu');
-}
-
 async function showCart(userData, cart)
 {
     console.clear();
@@ -110,6 +101,16 @@ async function showCart(userData, cart)
     console.log('Discount: ' + discount.toFixed(2));
 }
 
+async function printUnloggedUserMenu()
+{
+    console.clear();
+    console.log('[USER MENU (login to more features)]');
+    console.log('1. Login');
+    console.log('2. Add to cart');
+    console.log('3. See cart');
+    console.log('4. Cancel and Back to main menu');
+}
+
 async function runUserUnloggedMenu(userData, cart)
 {
     printUnloggedUserMenu(userData);
@@ -128,8 +129,8 @@ async function runUserUnloggedMenu(userData, cart)
             }
             return [false, userData, cart];
         case '2':
-            console.log('A FAZER CARRINHO...');
-            await App.waitKey();
+            let productInterface = new ProductInterface();
+            await productInterface.buyProduct(cart);
             return [false, userData, cart];
         case '3':
             await showCart(userData, cart);
@@ -173,12 +174,12 @@ async function runUserLoggedMenu(userData, cart)
             await App.waitKey();
             return [false, userData, cart];
         case '2':
-            interf = new PaymentInterface(userData, cart, null);
+            let interf = new PaymentInterface(userData, cart, null);
             await interf.checkFinishedsPurshases(userData);
             return [false, userData, cart];
         case '3':
-            console.log('A FAZER CARRINHO...');
-            await App.waitKey();
+            let productInterface = new ProductInterface();
+            await productInterface.buyProduct(cart);
             return [false, userData, cart];
         case '4':
             await showCart(userData, cart);
@@ -211,9 +212,10 @@ async function runUserMenu()
     let userData = new Customer();
     let cart = new Cart();
 
-    for (let index = 0; index < 10; index++) {
-        cart.addProduct(new Product(index%3, index+'ia', index+1, 1));   
-    }
+    // Adicionando itens ao carrinho
+    // for (let index = 0; index < 10; index++) {
+    //     cart.addProduct(new Product(index%3, index+'ia', index+1, 1));   
+    // }
 
     userData.setId(-1);
     userData.setAddress('undefined');

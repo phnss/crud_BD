@@ -1,6 +1,8 @@
 const DBconfigs = require('../configs/DBconfigs');
 const { Client } = require('pg');
 const fs = require('fs');
+const App = require('../app');
+const Product = require('../model/product');
 
 class ProdutoController 
 {
@@ -112,6 +114,62 @@ class ProdutoController
         finally
         {
             await this.disconnect(cliente);
+        }
+    }
+
+    // Realiza compra e valida
+    async buyProduct(code, quantity, cart)
+    {
+        let cliente = new Client(DBconfigs);
+
+        try
+        {   
+            await this.connect(cliente);             
+            
+            const query = {
+                text: 'SELECT DISTINCT * FROM produtos WHERE cod=$1 AND quantidade >= $2',
+                values: [code, quantity]
+            };
+
+            const resp = await cliente.query(query);
+            if(resp.rowCount > 0 && resp.rows != [])
+            {
+                let product = new Product();
+                let _cod = resp.rows[0].cod;
+                let _nome = resp.rows[0].nome.trim();
+                let _preco = resp.rows[0].preço;
+                let _quantidade = resp.rows[0].quantidade;
+                let _categoria = resp.rows[0].categoria.trim();
+                let _origem = resp.rows[0].origem.trim();
+
+                product.setCod(_cod);
+                product.setNome(_nome);
+                product.setPreco(_preco);
+                product.setQuantidade(_quantidade);
+                product.setCategoria(_categoria);
+                product.setOrigem(_origem);
+
+                await this.updateProduto(_cod, _nome, _preco, _quantidade-quantity, _categoria, _origem);
+
+                cart.addProduct(product);
+            }
+            else
+            {
+                console.clear();
+                console.log('There is no available product with the inserted code');
+                await App.waitKey();
+            }
+
+            //const resultado = await cliente.query(query);
+            //console.table(resultado.rows);
+        }
+        catch(ex){
+            console.log("Ocorreu erro no getProdutos. "+ex)    
+        }
+        finally
+        {
+            await this.disconnect(cliente);
+            return cart;
         }
     }
 

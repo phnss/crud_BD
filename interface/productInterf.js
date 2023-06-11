@@ -19,6 +19,24 @@ class ProductInterface
         await this.produtoController.insertProduto(cod, nome, preco, qtd, categoria, origem);
     }
 
+    // Função para comprar itens
+    async buyProduct(cart)
+    {
+        await this.listAllProducts();
+        const productCod = await App.promptUserInput('Enter the code of the product to buy: ');
+        const productQuant = await App.promptUserInput('Enter the quantity to buy: ');
+
+        if(productQuant <= 0)
+        {
+            console.clear();
+            console.log('Quantity must be greater or equals 1');
+            await App.waitKey();
+            return;
+        }
+
+        await this.produtoController.buyProduct(productCod, productQuant, cart);
+    }
+
     async updateProduct()
     {
         await this.listAllProducts();

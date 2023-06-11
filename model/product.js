@@ -1,9 +1,11 @@
 class Product {
-    constructor(cod, nome, preco, quantidade) {
+    constructor(cod, nome, preco, quantidade, categoria, origem) {
       this.cod = cod;
       this.nome = nome;
       this.preco = preco;
       this.quantidade = quantidade;
+      this.categoria = categoria;
+      this.origem = origem;
       this.updateTotal();
     }
   
@@ -36,6 +38,23 @@ class Product {
     getQuantidade() {
       return this.quantidade;
     }
+
+    getCategoria() {
+      return this.categoria;
+    }
+
+    setCategoria(value) {
+      this.categoria = value;
+    }
+
+    getOrigem() {
+      return this.origem;
+    }
+
+    setOrigem(value) {
+      this.origem = value;
+    }
+  
 
     increaseQuantity()
     {
