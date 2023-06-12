@@ -21,7 +21,7 @@ class ProductInterface
     // Função para comprar itens
     async buyProduct(cart)
     {
-        await this.listAllProducts();
+        //await this.listAllProducts();
 
         console.log('You can go back inserting (back)');
         const productCod = await App.promptUserInput('Enter the code of the product to buy: ');
@@ -44,9 +44,20 @@ class ProductInterface
     }
 
     async updateProduct()
-    {
+    {   
+        console.clear();
         await this.listAllProducts();
         const updateCod = await App.promptUserInput('Enter the code of the product to update: ');
+
+        if(updateCod == ''){
+            console.log('Invalid Command!');
+            return;
+        }
+        if(!(await this.produtoController.IsProductExistByCode(updateCod))){
+            console.clear();
+            console.log('non-existent product!');
+            return;
+        }
 
         await this.runAdminMenuUpdate(updateCod);
         //const updateNome = await App.promptUserInput('Enter the new name for the product: ');
@@ -168,6 +179,17 @@ class ProductInterface
         console.log('6. Back');
     }
 
+    async printUserMenuProductsFilter()
+    {
+        console.log('[USER MENU PRDUCTS FILTER]');
+        console.log('1. List all products');
+        console.log('2. List all products within the price range');
+        console.log('3. Get product by name');
+        console.log('4. Get product by category');
+        console.log('5. Get product by origin');
+        console.log('6. Back');
+    }
+
     async runAdminMenu() 
     {
         while (true) 
@@ -258,6 +280,50 @@ class ProductInterface
             }
 
             await App.waitKey();
+        }
+    }
+
+    async runUserMenuProductsFilter(cart){
+        while (true) 
+        {
+            console.clear();
+
+            await this.printUserMenuProductsFilter();
+
+            const command = await App.promptUserInput('Enter a command number: ');
+
+            switch (command) 
+            {
+                case '1':
+                    console.clear();
+                    await this.listAllProducts();
+                    await this.buyProduct(cart);
+                    break;
+                case '2':
+                    console.clear();
+                    await this.listAllProductsWithinThePriceRange();
+                    await this.buyProduct(cart);
+                    break;
+                case '3':
+                    console.clear();
+                    await this.getProductByName();
+                    await this.buyProduct(cart);
+                    break;
+                case '4':
+                    console.clear();
+                    await this.getProductByCategory();
+                    await this.buyProduct(cart);
+                    break;
+                case '5':
+                    console.clear();
+                    await this.getProductByOrigin();
+                    await this.buyProduct(cart);
+                    break;
+                case '6':
+                    return;
+                default:
+                    await App.invalidCommand();
+            }
         }
     }
 };

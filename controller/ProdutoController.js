@@ -359,7 +359,7 @@ class ProdutoController
             await this.connect(cliente);    
             
             const query = {
-                text: 'SELECT * FROM produtos WHERE preço >= $1 AND preço <= $2 ORDER BY cod ASC',
+                text: 'SELECT * FROM produtos WHERE preço <= $1 AND preço >= $2 ORDER BY cod ASC',
                 values: [upValue, lowValue]
             };
 
@@ -424,6 +424,33 @@ class ProdutoController
         {
             await this.disconnect(cliente);
         }
+    }
+
+    async IsProductExistByCode(cod){
+        let cliente = new Client(DBconfigs);
+
+        try
+        {   
+            await this.connect(cliente);    
+            
+            const query = 'SELECT COUNT(*) FROM produtos WHERE cod = $1';
+            const values = [cod];
+        
+            const result = await cliente.query(query, values);
+            const count = parseInt(result.rows[0].count);
+
+            if (count > 0){
+                await this.disconnect(cliente);
+                return 1; //Exist Product
+            }else{
+                await this.disconnect(cliente);
+                return 0; //Non-exist Product
+            }
+        }
+        catch(ex){
+            console.log("Ocorreu erro ao verificar a existência do produto. "+ex)    
+        }
+
     }
 
     async getProdutoByCategory(category)

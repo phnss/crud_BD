@@ -130,7 +130,8 @@ async function runUserUnloggedMenu(userData, cart)
             return [false, userData, cart];
         case '2':
             let productInterface = new ProductInterface();
-            await productInterface.buyProduct(cart);
+            await productInterface.runUserMenuProductsFilter(cart);
+            await App.waitKey(); 
             return [false, userData, cart];
         case '3':
             await showCart(userData, cart);
