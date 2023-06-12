@@ -1,8 +1,8 @@
-ID do Pedido,Valor Total,ID do Cliente,ID do Funcionário,Nome do Funcionário,Itens do Pedido
-1,50.00,1,1,Nogueira                      ,muitos produtos
-2,150.00,1,1,Nogueira                      ,muitos produtos
-3,30.00,3,2,Reis                          ,muitos produtos
-4,20.00,2,3,Silva                         ,muitos produtos
-5,400.00,5,4,Davi                          ,muitos produtos
-6,10.00,3,5,Preguiçoso                    ,muitos produtos
-7,70.00,2,6,Preguiçoso                    ,muitos produtos
+ID do Funcionário,Nome do Funcionário,Email do Funcionário,Valor Total,Itens do Pedido
+1,Nogueira                      ,pn@yahoo.com.br                         ,200.00,"muitos produtos,muitos produtos"
+2,Reis                          ,diego@yahoo.com.br                      ,30.00,muitos produtos
+3,Silva                         ,daniel@yahoo.com.br                     ,20.00,muitos produtos
+4,Davi                          ,davi@davi                               ,400.00,muitos produtos
+5,Preguiçoso                    ,admin@admin                             ,10.00,muitos produtos
+6,Preguiçoso                    ,admin                                   ,70.00,muitos produtos
+7,Santos                        ,patricia@yahoo.com.br                   ,0,

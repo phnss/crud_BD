@@ -257,7 +257,7 @@ class SellerController
         try {
             await this.connect(cliente);             
             // Consulta para obter as informações dos pagamentos
-            const query = `SELECT * FROM view_pagamentos`;
+            const query = `SELECT * FROM view_sellers_report`;
             const result = await cliente.query(query);
             const payments = result.rows;
         
@@ -265,11 +265,10 @@ class SellerController
             const csvWriter = createCsvWriter({
               path: './report/relatorio_vendas.csv',
               header: [
-                { id: 'id', title: 'ID do Pedido' },
-                { id: 'totalprice', title: 'Valor Total' },
-                { id: 'customerid', title: 'ID do Cliente' },
                 { id: 'sellerid', title: 'ID do Funcionário' },
                 { id: 'sellername', title: 'Nome do Funcionário' },
+                { id: 'selleremail', title: 'Email do Funcionário' },
+                { id: 'totalprice', title: 'Valor Total' },
                 { id: 'products', title: 'Itens do Pedido' },
               ],
             });

@@ -6,6 +6,7 @@ DROP TABLE IF EXISTS produtos CASCADE;
 DROP TABLE IF EXISTS clientes CASCADE;
 DROP TABLE IF EXISTS sellers CASCADE;
 DROP TABLE IF EXISTS payments CASCADE;
+DROP VIEW IF EXISTS view_vendas CASCADE;
 
 --Criando as tables usadas
 CREATE TABLE IF NOT EXISTS produtos(
@@ -94,8 +95,9 @@ VALUES
     (10.00, 3, 5, 'muitos produtos'),
     (70.00, 2, 6, 'muitos produtos');
 
-CREATE VIEW view_pagamentos AS
-SELECT payments.id, payments.totalprice, payments.customerid, payments.sellerid, payments.products, sellers.name AS sellername
-FROM payments
-JOIN sellers ON payments.sellerid = sellers.sellerId;
-
+CREATE VIEW view_sellers_report AS
+SELECT sellers.sellerid AS sellerid, sellers.name AS sellername, sellers.email as selleremail , SUM(COALESCE(payments.totalprice, 0)) AS totalprice, json_agg(payments.products) AS products
+FROM sellers
+LEFT JOIN payments ON sellers.sellerid = payments.sellerid
+GROUP BY sellers.sellerid, sellers.name
+ORDER by sellers.sellerid ASC;
