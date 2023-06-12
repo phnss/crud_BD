@@ -280,7 +280,7 @@ class ProdutoController
                 product.setCod(_cod);
                 product.setNome(_nome);
                 product.setPreco(_preco);
-                product.setQuantidade(_quantidade);
+                product.setQuantidade(quantity);
                 product.setCategoria(_categoria);
                 product.setOrigem(_origem);
 

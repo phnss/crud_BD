@@ -16,7 +16,7 @@ class Cart
         {
             if(this.items[i].getCod() == product.getCod())
             {
-                this.items[i].increaseQuantity();
+                this.items[i].increaseQuantity(product.getQuantidade());
                 return;
             }
         }

@@ -54,17 +54,16 @@ class Product {
     setOrigem(value) {
       this.origem = value;
     }
-  
 
-    increaseQuantity()
+    increaseQuantity(quant)
     {
-      this.setQuantidade(this.getQuantidade()+1);
+      this.setQuantidade(+this.getQuantidade() + +quant);
     }
 
-    decreaseQuantity()
+    decreaseQuantity(quant)
     {
       if(this.getQuantidade() > 0)
-        this.setQuantidade(this.getQuantidade()-1);
+        this.setQuantidade(+this.getQuantidade() - +quant);
     }
 
     // Setter for quantidade
