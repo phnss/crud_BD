@@ -88,6 +88,141 @@ class ProdutoController
             await this.disconnect(cliente);
         }
     }
+    
+    async updateProdutoNome(cod, nome){
+
+        let cliente = new Client(DBconfigs);
+
+        try
+        {    
+            await this.connect(cliente);
+
+            const query = {
+                text: 'UPDATE produtos SET "nome" = $2 WHERE "cod" = $1',
+                values: [cod, nome]
+            };
+            await cliente.query(query);
+
+            console.log("Valor atualizado na tabela!");
+            const resultado = await cliente.query("SELECT * FROM produtos ORDER BY cod ASC");
+            console.table(resultado.rows);
+        }
+        catch(ex){
+            console.log("Ocorreu erro no updateProduto. "+ex)    
+        }   
+        finally
+        {
+            await this.disconnect(cliente);
+        }
+    } 
+
+    async updateProdutoPreco(cod, preco){
+
+        let cliente = new Client(DBconfigs);
+
+        try
+        {    
+            await this.connect(cliente);
+
+            const query = {
+                text: 'UPDATE produtos SET "preço" = $2 WHERE "cod" = $1',
+                values: [cod, preco]
+            };
+            await cliente.query(query);
+
+            console.log("Valor atualizado na tabela!");
+            const resultado = await cliente.query("SELECT * FROM produtos ORDER BY cod ASC");
+            console.table(resultado.rows);
+        }
+        catch(ex){
+            console.log("Ocorreu erro no updateProduto. "+ex)    
+        }   
+        finally
+        {
+            await this.disconnect(cliente);
+        }
+    } 
+    
+    async updateProdutoQuantidade(cod, qtd){
+
+        let cliente = new Client(DBconfigs);
+
+        try
+        {    
+            await this.connect(cliente);
+
+            const query = {
+                text: 'UPDATE produtos SET "quantidade" = $2 WHERE "cod" = $1',
+                values: [cod, qtd]
+            };
+            await cliente.query(query);
+
+            console.log("Valor atualizado na tabela!");
+            const resultado = await cliente.query("SELECT * FROM produtos ORDER BY cod ASC");
+            console.table(resultado.rows);
+        }
+        catch(ex){
+            console.log("Ocorreu erro no updateProduto. "+ex)    
+        }   
+        finally
+        {
+            await this.disconnect(cliente);
+        }
+    }
+
+    async updateProdutoCategoria(cod, categoria){
+
+        let cliente = new Client(DBconfigs);
+
+        try
+        {    
+            await this.connect(cliente);
+
+            const query = {
+                text: 'UPDATE produtos SET "categoria" = $2 WHERE "cod" = $1',
+                values: [cod, categoria]
+            };
+            await cliente.query(query);
+
+            console.log("Valor atualizado na tabela!");
+            const resultado = await cliente.query("SELECT * FROM produtos ORDER BY cod ASC");
+            console.table(resultado.rows);
+        }
+        catch(ex){
+            console.log("Ocorreu erro no updateProduto. "+ex)    
+        }   
+        finally
+        {
+            await this.disconnect(cliente);
+        }
+    }
+
+    async updateProdutoOrigem(cod, origem){
+
+        let cliente = new Client(DBconfigs);
+
+        try
+        {    
+            await this.connect(cliente);
+
+            const query = {
+                text: 'UPDATE produtos SET "origem" = $2 WHERE "cod" = $1',
+                values: [cod, origem]
+            };
+            await cliente.query(query);
+
+            console.log("Valor atualizado na tabela!");
+            const resultado = await cliente.query("SELECT * FROM produtos ORDER BY cod ASC");
+            console.table(resultado.rows);
+        }
+        catch(ex){
+            console.log("Ocorreu erro no updateProduto. "+ex)    
+        }   
+        finally
+        {
+            await this.disconnect(cliente);
+        }
+    }
 
     async deleteProduto(cod)
     {

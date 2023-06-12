@@ -18,12 +18,18 @@ class ProductInterface
         const origem = await App.promptUserInput('Enter product origin: ');
         await this.produtoController.insertProduto(cod, nome, preco, qtd, categoria, origem);
     }
-
     // Função para comprar itens
     async buyProduct(cart)
     {
         await this.listAllProducts();
+
+        console.log('You can go back inserting (back)');
         const productCod = await App.promptUserInput('Enter the code of the product to buy: ');
+        
+        if(productCod == 'back'){
+            return;
+        }
+        
         const productQuant = await App.promptUserInput('Enter the quantity to buy: ');
 
         if(productQuant <= 0)
@@ -41,12 +47,14 @@ class ProductInterface
     {
         await this.listAllProducts();
         const updateCod = await App.promptUserInput('Enter the code of the product to update: ');
-        const updateNome = await App.promptUserInput('Enter the new name for the product: ');
-        const updatePreco = await App.promptUserInput('Enter the new price for the product: ');
-        const updateQtd = await App.promptUserInput('Enter the new quantity for the product: ');
-        const updateCategory = await App.promptUserInput('Enter the new category for the product: ');
-        const updateOrigin = await App.promptUserInput('Enter the new origin for the product: ');
-        await this.produtoController.updateProduto(updateCod, updateNome, updatePreco, updateQtd, updateCategory, updateOrigin);
+
+        await this.runAdminMenuUpdate(updateCod);
+        //const updateNome = await App.promptUserInput('Enter the new name for the product: ');
+        //const updatePreco = await App.promptUserInput('Enter the new price for the product: ');
+        //const updateQtd = await App.promptUserInput('Enter the new quantity for the product: ');
+        //const updateCategory = await App.promptUserInput('Enter the new category for the product: ');
+        //const updateOrigin = await App.promptUserInput('Enter the new origin for the product: ');
+        //await this.produtoController.updateProduto(updateCod, updateNome, updatePreco, updateQtd, updateCategory, updateOrigin);
     }
 
     async deleteProduct()
@@ -102,6 +110,31 @@ class ProductInterface
         await this.produtoController.getProdutoById(id);
     }
 
+    async updateProductName(cod){
+        const updateName = await App.promptUserInput('Enter the new name of the product: ');
+        await this.produtoController.updateProdutoNome(cod, updateName);
+    }
+
+    async updateProductPrice(cod){
+        const updatePrice = await App.promptUserInput('Enter the new price of the product: ');
+        await this.produtoController.updateProdutoPreco(cod, updatePrice);
+    }
+
+    async updateProductQuantity(cod){
+        const updateQuantity = await App.promptUserInput('Enter the new quantity of the product: ');
+        await this.produtoController.updateProdutoQuantidade(cod, updateQuantity);
+    }
+
+    async updateProductCategory(cod){
+        const updateCategory = await App.promptUserInput('Enter the new category of the product: ');
+        await this.produtoController.updateProdutoCategoria(cod, updateCategory);
+    }
+
+    async updateProductOrigin(cod){
+        const updateOrigin = await App.promptUserInput('Enter the new origin of the product: ');
+        await this.produtoController.updateProdutoOrigem(cod, updateOrigin);
+    }
+
     async getProductReport()
     {
         this.produtoController.reportProductInformation();
@@ -122,6 +155,17 @@ class ProductInterface
         console.log('10. Get product by origin');
         console.log('11. Report about products')
         console.log('12. Back');
+    }
+
+    async printAdminMenuOptionsUpdate()
+    {
+        console.log('[PRODUCT ADMIN MENU]');
+        console.log('1. Update name');
+        console.log('2. Update price');
+        console.log('3. Update quantity');
+        console.log('4. Update category');
+        console.log('5. Update origin');
+        console.log('6. Back');
     }
 
     async runAdminMenu() 
@@ -171,6 +215,44 @@ class ProductInterface
                 case '12':
                     //await closeApplication();  
                     return;  
+                default:
+                    await App.invalidCommand();
+            }
+
+            await App.waitKey();
+        }
+    }
+
+    async runAdminMenuUpdate(cod){
+        while (true) 
+        {
+            console.clear();
+
+            await this.produtoController.getProdutoByCode(cod);
+
+            await this.printAdminMenuOptionsUpdate();
+
+            const command = await App.promptUserInput('Enter a command number: ');
+
+            switch (command) 
+            {
+                case '1':
+                    await this.updateProductName(cod);
+                    break;
+                case '2':
+                    await this.updateProductPrice(cod);
+                    break;
+                case '3':
+                    await this.updateProductQuantity(cod);
+                    break;
+                case '4':
+                    await this.updateProductCategory(cod);
+                    break;
+                case '5':
+                    await this.updateProductOrigin(cod);
+                    break;
+                case '6':
+                    return;
                 default:
                     await App.invalidCommand();
             }

@@ -68,7 +68,7 @@ class SellerInterface
         console.log('7. Get Seller by ID');
         console.log('8. Back');
     }
-    
+  
     async runAdminMenu() 
     {
         while (true) 
