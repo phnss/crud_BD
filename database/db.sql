@@ -94,4 +94,8 @@ VALUES
     (10.00, 3, 5, 'muitos produtos'),
     (70.00, 2, 6, 'muitos produtos');
 
+CREATE VIEW view_pagamentos AS
+SELECT payments.id, payments.totalprice, payments.customerid, payments.sellerid, payments.products, sellers.name AS sellername
+FROM payments
+JOIN sellers ON payments.sellerid = sellers.sellerId;
 

@@ -257,12 +257,7 @@ class SellerController
         try {
             await this.connect(cliente);             
             // Consulta para obter as informações dos pagamentos
-            const query = `
-              SELECT payments.id, payments.totalprice, payments.customerid, payments.sellerid, payments.products, sellers.name AS sellername
-              FROM payments
-              JOIN sellers ON payments.sellerid = sellers.sellerId
-            `;
-        
+            const query = `SELECT * FROM view_pagamentos`;
             const result = await cliente.query(query);
             const payments = result.rows;
         
