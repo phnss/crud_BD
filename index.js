@@ -180,7 +180,8 @@ async function runUserLoggedMenu(userData, cart)
             return [false, userData, cart];
         case '3':
             let productInterface = new ProductInterface();
-            await productInterface.buyProduct(cart);
+            await productInterface.runUserMenuProductsFilter(cart);
+            await App.waitKey(); 
             return [false, userData, cart];
         case '4':
             await showCart(userData, cart);
