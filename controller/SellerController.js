@@ -1,6 +1,7 @@
 const DBconfigs = require('../configs/DBconfigs');
 const { Client } = require('pg');
 const Seller = require('../model/seller');
+const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 const App = require('../app');
 
 class SellerController 
@@ -247,6 +248,45 @@ class SellerController
         {
             await this.disconnect(client);
             return seller;
+        }
+    }
+
+    async sellersReport(){
+        let cliente = new Client(DBconfigs);
+    
+        try {
+            await this.connect(cliente);             
+            // Consulta para obter as informações dos pagamentos
+            const query = `
+              SELECT payments.id, payments.totalprice, payments.customerid, payments.sellerid, payments.products, sellers.name AS sellername
+              FROM payments
+              JOIN sellers ON payments.sellerid = sellers.sellerId
+            `;
+        
+            const result = await cliente.query(query);
+            const payments = result.rows;
+        
+            // Criação do arquivo CSV
+            const csvWriter = createCsvWriter({
+              path: './report/relatorio_vendas.csv',
+              header: [
+                { id: 'id', title: 'ID do Pedido' },
+                { id: 'totalprice', title: 'Valor Total' },
+                { id: 'customerid', title: 'ID do Cliente' },
+                { id: 'sellerid', title: 'ID do Funcionário' },
+                { id: 'sellername', title: 'Nome do Funcionário' },
+                { id: 'products', title: 'Itens do Pedido' },
+              ],
+            });
+        
+            await csvWriter.writeRecords(payments);
+            console.log('Arquivo CSV gerado com sucesso: relatorio_vendas.csv');
+        } catch (error) {
+            console.error('Erro ao gerar o relatório de vendas:', error);
+        }
+        finally
+        {
+            await this.disconnect(cliente);
         }
     }
 }

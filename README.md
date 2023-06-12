@@ -12,6 +12,7 @@
     - node-postgres(pg): npm install pg
     - file-system(fs)
     - knex: npm install knex
+    - Csv Writer: npm i csv-writer
 
 > Configurações do banco de dados:
 

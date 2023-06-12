@@ -83,3 +83,15 @@ VALUES
     ('Preguiçoso', 'admin@admin', 'admin'),
     ('Preguiçoso', 'admin', 'admin'),
     ('Santos', 'patricia@yahoo.com.br', '00005');
+
+INSERT INTO payments(totalPrice, customerID, sellerID, products) 
+VALUES
+    (50.00, 1, 1, 'muitos produtos'),
+    (150.00, 1, 1, 'muitos produtos'),
+    (30.00, 3, 2, 'muitos produtos'),
+    (20.00, 2, 3, 'muitos produtos'),
+    (400.00, 5, 4, 'muitos produtos'),
+    (10.00, 3, 5, 'muitos produtos'),
+    (70.00, 2, 6, 'muitos produtos');
+
+

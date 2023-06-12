@@ -255,7 +255,8 @@ async function runMainMenu()
         console.log('[MAIN MENU]');
         console.log('1. Admin Menu');
         console.log('2. Customer Menu');
-        console.log('3. Exit');
+        console.log('3. Sellers Report');
+        console.log('4. Exit');
 
         const command = await App.promptUserInput('Enter a command number: ');
 
@@ -268,6 +269,11 @@ async function runMainMenu()
                 await runUserMenu();
                 break;
             case '3':
+                let sellerController = new SellerController();
+                await sellerController.sellersReport();
+                await App.waitKey();
+                break;
+            case '4':
                 await App.closeApplication();  
                 return;  
             default:
