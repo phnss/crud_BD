@@ -9,6 +9,7 @@
   "author": "pedro",
   "license": "ISC",
   "dependencies": {
+    "csv-writer": "^1.6.0",
     "knex": "^2.4.2",
     "pg": "^8.10.0"
   }
