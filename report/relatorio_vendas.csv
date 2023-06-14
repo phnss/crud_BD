@@ -2,7 +2,4 @@ ID do Funcionário,Nome do Funcionário,Email do Funcionário,Valor Total,Itens 
 1,Nogueira                      ,pn@yahoo.com.br                         ,200.00,"muitos produtos,muitos produtos"
 2,Reis                          ,diego@yahoo.com.br                      ,30.00,muitos produtos
 3,Silva                         ,daniel@yahoo.com.br                     ,20.00,muitos produtos
-4,Davi                          ,davi@davi                               ,400.00,muitos produtos
-5,Preguiçoso                    ,admin@admin                             ,10.00,muitos produtos
-6,Preguiçoso                    ,admin                                   ,70.00,muitos produtos
-7,Santos                        ,patricia@yahoo.com.br                   ,0,
+4,Santos                        ,patricia@yahoo.com.br                   ,400.00,muitos produtos

@@ -11,11 +11,11 @@ class CustomerController
         this.client = new Client(DBconfigs);
     }
 
-    validarEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        
-        return emailRegex.test(email);
-    }
+    //validarEmail(email) {
+    //    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    //    
+    //    return emailRegex.test(email);
+    //}
       
     async connect(cliente)
     {
@@ -45,9 +45,9 @@ class CustomerController
     {
         let cliente = new Client(DBconfigs);
 
-        if(!this.validarEmail(email)){
-            return console.log('Email inválido!');
-        }
+        //if(!this.validarEmail(email)){
+        //    return console.log('Email inválido!');
+        //}
         
         try
         {    

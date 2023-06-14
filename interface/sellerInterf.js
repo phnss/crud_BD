@@ -19,7 +19,10 @@ class SellerInterface
     }
     
     async updateSeller()
-    {
+    {   
+        console.clear();
+        await this.listAllSellers();
+
         const updateID = await App.promptUserInput('Enter the ID of the Seller to update: ');
         const updateName = await App.promptUserInput('Enter the new name for the seller: ');
         const updateEmail = await App.promptUserInput('Enter the new email for the seller: ');
@@ -29,6 +32,9 @@ class SellerInterface
     
     async deleteSeller()
     {
+        console.clear();
+        await this.listAllSellers();
+        
         const id = await App.promptUserInput('Enter the ID of the Seller to delete: ');
         await this.sellerController.deleteSeller(id);
     }

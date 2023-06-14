@@ -14,20 +14,23 @@ class CustomerInterface
         const email = await App.promptUserInput('Enter client email: ');
         const password = await App.promptUserInput('Enter client password: ');
         const address = await App.promptUserInput('Enter client address: ');
-        const isFlamengo = await App.promptUserInput('Is client flamengo? (0: false, 1: true)');
-        const watchOnePiece = await App.promptUserInput('Client watch one piece? (0: false, 1: true)');
+        let isFlamengo = await App.promptUserInput('Is client flamengo? (0: false, 1: true): ');
+        let watchOnePiece = await App.promptUserInput('Client watch one piece? (0: false, 1: true): ');
         
         if(isFlamengo != '0')
-            isFlamengo = '1'
+            isFlamengo = '1';
 
         if(watchOnePiece != '0')
-            watchOnePiece = '1'
+            watchOnePiece = '1';
 
         await this.customerController.insertCliente(nome, email, password, address, isFlamengo, watchOnePiece);
     }
 
     async updateCliente()
     {
+        console.clear();
+        await this.listAllClient();
+
         const updateID = await App.promptUserInput('Enter the ID of the Client to update: ');
         const updateNome = await App.promptUserInput('Enter the new name for the client: ');
         const updateEmail = await App.promptUserInput('Enter the new email for the client: ');
@@ -47,6 +50,9 @@ class CustomerInterface
 
     async deleteCliente()
     {
+        console.clear();
+        await this.listAllClient();
+
         const id = await App.promptUserInput('Enter the ID of the Client to delete: ');
         await this.customerController.deleteCliente(id);
     }

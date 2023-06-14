@@ -125,9 +125,10 @@ async function printUnloggedUserMenu()
     console.clear();
     console.log('[USER MENU (login to more features)]');
     console.log('1. Login');
-    console.log('2. Add to cart');
-    console.log('3. See cart');
-    console.log('4. Cancel and Back to main menu');
+    console.log('2. Cadastrar')
+    console.log('3. Add to cart');
+    console.log('4. See cart');
+    console.log('5. Cancel and Back to main menu');
 }
 
 async function runUserUnloggedMenu(userData, cart)
@@ -148,15 +149,21 @@ async function runUserUnloggedMenu(userData, cart)
             }
             return [false, userData, cart];
         case '2':
+            console.clear();
+            let customerInterf = new CustomerInterface();
+            await customerInterf.insertCliente();
+
+            return [false, userData, cart];
+        case '3':
             let productInterface = new ProductInterface();
             await productInterface.runUserMenuProductsFilter(cart);
             await App.waitKey(); 
             return [false, userData, cart];
-        case '3':
+        case '4':
             await showCart(userData, cart);
             await App.waitKey();
             return [false, userData, cart];
-        case '4':
+        case '5':
             await sweepCart(cart);
             return [true, userData, cart];
         default:
@@ -208,6 +215,13 @@ async function runUserLoggedMenu(userData, cart)
             await App.waitKey();
             return [false, userData, cart];
         case '5':
+            let items = cart.getProducts();
+            if(items.length <= 0){
+                console.log('Cart is Empty...');
+                await App.waitKey();
+                return [true, userData, cart];
+            }
+
             let seller = await loginAsAdmin();
             let paymentInterf = new PaymentInterface(userData, cart, seller);
 

@@ -8,8 +8,7 @@ DROP TABLE IF EXISTS clientes CASCADE;
 DROP TABLE IF EXISTS sellers CASCADE;
 DROP TABLE IF EXISTS payments CASCADE;
 DROP VIEW IF EXISTS view_vendas CASCADE;
-DROP FUNCTION IF EXISTS RecolocarItensDoCarrinho(item_cod INTEGER, item_quantidade INTEGER);
-DROP PROCEDURE IF EXISTS RecolocarItenDoCarrinho(item_cod INTEGER, item_quantidade INTEGER);
+DROP PROCEDURE IF EXISTS RecolocarItenDoCarrinho(item_cod INTEGER, item_quantidade INTEGER) CASCADE;
 
 --Criando as tables usadas
 CREATE TABLE IF NOT EXISTS produtos(
@@ -30,14 +29,17 @@ CREATE INDEX index_preco_prod ON produtos (preço);
 CREATE TABLE IF NOT EXISTS clientes(
     id SERIAL,
     nome CHARACTER(30) NOT NULL,
-    email CHARACTER(40) NOT NULL,
+    email CHARACTER(40) NOT NULL UNIQUE,
     senha CHARACTER(20) NOT NULL,
     address CHARACTER(30) NOT NULL,
     isFlamengo BIT NOT NULL,
     watchOnePiece BIT NOT NULL,
 
-    CONSTRAINT pk_customers PRIMARY KEY(id) 
+    CONSTRAINT pk_customers PRIMARY KEY(id)
+    --CHECK(email ~* '^.+@.+\.(com|br)$')
 );
+
+
 CREATE INDEX index_id_cli ON clientes (id);
 CREATE INDEX index_nome_cli ON clientes (nome);
 CREATE INDEX index_email_cli ON clientes (email);
@@ -46,10 +48,11 @@ CREATE INDEX index_email_cli ON clientes (email);
 CREATE TABLE IF NOT EXISTS sellers(
     sellerId SERIAL,
     name CHARACTER(30) NOT NULL,
-    email CHARACTER(40) NOT NULL,
+    email CHARACTER(40) NOT NULL UNIQUE,
     password CHARACTER(20) NOT NULL,
 
-    CONSTRAINT pk_sellers PRIMARY KEY(sellerId) 
+    CONSTRAINT pk_sellers PRIMARY KEY(sellerId)
+    --CHECK(email ~* '^.+@.+\.(com|br)$')
 );
 
 CREATE TABLE IF NOT EXISTS payments(
@@ -62,29 +65,27 @@ CREATE TABLE IF NOT EXISTS payments(
     CONSTRAINT pk_payments PRIMARY KEY(id) 
 );
 
-
 INSERT INTO produtos(cod, nome, preço, quantidade, categoria, origem) 
 VALUES
-    (1, 'maçã', 2.00, 10, 'fruta', 'São Paulo'),
-    (2, 'pêra', 4.00, 5, 'fruta', 'Rio de Janeiro'),
-    (3, 'abacaxi', 5.00, 12, 'fruta', 'Mari'),
-    (4, 'maracujá', 4.00, 7, 'fruta', 'Mari'),
+    (1, 'maçã', 2.00, 15, 'fruta', 'São Paulo'),
+    (2, 'pêra', 4.00, 10, 'fruta', 'Rio de Janeiro'),
+    (3, 'abacaxi', 5.00, 14, 'fruta', 'Mari'),
+    (4, 'maracujá', 4.00, 10, 'fruta', 'Mari'),
     (5, 'kiwi', 8.00, 5, 'fruta', 'João Pessoa'),
-    (6, 'alho', 2.50, 10, 'fruta', 'Mari'),
-    (7, 'banana', 1.50, 10, 'fruta', 'São Paulo'),
-    (8, 'mixirica', 3.50, 8, 'fruta', 'São Paulo'),
-    (9, 'cebola', 10.00, 5, 'fruta', 'Mari'),
+    (6, 'alho', 2.50, 14, 'fruta', 'Mari'),
+    (7, 'banana', 1.50, 21, 'fruta', 'São Paulo'),
+    (8, 'mixirica', 3.50, 19, 'fruta', 'São Paulo'),
+    (9, 'cebola', 10.00, 20, 'fruta', 'Mari'),
     (10, 'abacate', 8.50, 10, 'fruta', 'São Paulo');
 
 INSERT INTO clientes(nome, email, senha, address, isFlamengo, watchOnePiece)
 VALUES
-    ('Pedro Nogueira', 'pn@yahoo.com.br', 'pn123321', 'Sousa', '0', '0'),
+    ('Pedro Nogueira', 'phnss@yahoo.com.br', 'pn123321', 'Sousa', '0', '0'),
     ('Diego', 'diego@yahoo.com.br', 'diego123321', 'Sousa', '0', '1'),
     ('Marcos', 'marco@yahoo.com.br', 'marcos123321', 'Jampa','1', '0'),
     ('Marcelo', 'marcelo@yahoo.com.br', '123321', 'Mangabeira', '1', '1'),
     ('Arthur', 'arthur@yahoo.com.br', '1234321', 'Sousa', '0', '1'),
     ('Daniel', 'daniel@yahoo.com.br', 'daniel4321', 'Bayuex', '1', '0'),
-    ('Cliente Preguiçoso', 'admin', 'admin', 'Sousa', '1', '1'),
     ('Patricia', 'patricia@yahoo.com.br', '5432112', 'Suzano', '1', '1');
     
 INSERT INTO sellers(name, email, password) 
@@ -92,10 +93,7 @@ VALUES
     ('Nogueira', 'pn@yahoo.com.br', '00001'),
     ('Reis', 'diego@yahoo.com.br', '00002'),
     ('Silva', 'daniel@yahoo.com.br', '00003'),
-    ('Davi', 'davi@davi', 'davisenha'),
-    ('Preguiçoso', 'admin@admin', 'admin'),
-    ('Preguiçoso', 'admin', 'admin'),
-    ('Santos', 'patricia@yahoo.com.br', '00005');
+    ('Santos', 'patricia@yahoo.com.br', '00004');
 
 INSERT INTO payments(totalPrice, customerID, sellerID, products) 
 VALUES
@@ -103,7 +101,7 @@ VALUES
     (150.00, 1, 1, 'muitos produtos'),
     (30.00, 3, 2, 'muitos produtos'),
     (20.00, 2, 3, 'muitos produtos'),
-    (400.00, 5, 4, 'muitos produtos'),
+    (400.00, 3, 4, 'muitos produtos'),
     (10.00, 3, 5, 'muitos produtos'),
     (70.00, 2, 6, 'muitos produtos');
 
@@ -116,7 +114,6 @@ BEGIN
 END;
 $$ 
 LANGUAGE PLPGSQL;
-
 
 CREATE VIEW view_sellers_report AS
 SELECT sellers.sellerid AS sellerid, sellers.name AS sellername, sellers.email as selleremail , SUM(COALESCE(payments.totalprice, 0)) AS totalprice, json_agg(payments.products) AS products
