@@ -504,8 +504,29 @@ class ProdutoController
         }
     }
 
-    async reportProductInformation()
-    {
+    async realocarItens(item_cod, item_quantidade){
+        let cliente = new Client(DBconfigs);
+
+        try
+        {   
+            await this.connect(cliente);    
+            
+            const query = 'SELECT RecolocarItensDoCarrinho($1, $2)';
+            const values = [item_cod, item_quantidade];
+            
+            await cliente.query(query, values);
+            console.log("Itens realocados?");
+        }
+        catch(ex){
+            console.log("Ocorreu erro na função. "+ex)    
+        }
+        finally
+        {
+            await this.disconnect(cliente);
+        }
+    }
+
+    async reportProductInformation(){
         let cliente = new Client(DBconfigs);
 
         try

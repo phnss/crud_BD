@@ -5,6 +5,7 @@ const ProductInterface = require('./interface/productInterf');
 const CustomerInterface = require('./interface/customerInterf');
 const SellerController = require('./controller/SellerController');
 const CustomerController = require('./controller/CustomerController');
+const ProductController = require('./controller/ProdutoController');
 const { user } = require('./configs/DBconfigs');
 const Customer = require('./model/customer');
 const Cart = require('./model/cart');
@@ -101,6 +102,24 @@ async function showCart(userData, cart)
     console.log('Discount: ' + discount.toFixed(2));
 }
 
+async function sweepCart(cart){
+    let itens = cart.getProducts();
+    let produtoController = new ProductController();
+
+    if(itens.length <= 0)
+    {
+        console.log('Cart is Empty...');
+        return;
+    }else{
+        console.log("Há itens no carrinho!");
+        
+        for(let i = 0; i <  itens.length; i++){
+            await produtoController.realocarItens(itens[i].cod, itens[i].quantidade);
+        }
+        await App.waitKey();
+    }
+}
+
 async function printUnloggedUserMenu()
 {
     console.clear();
@@ -138,6 +157,7 @@ async function runUserUnloggedMenu(userData, cart)
             await App.waitKey();
             return [false, userData, cart];
         case '4':
+            await sweepCart(cart);
             return [true, userData, cart];
         default:
             await App.invalidCommand();

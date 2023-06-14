@@ -94,6 +94,16 @@ VALUES
     (400.00, 5, 4, 'muitos produtos'),
     (10.00, 3, 5, 'muitos produtos'),
     (70.00, 2, 6, 'muitos produtos');
+        
+CREATE OR REPLACE FUNCTION RecolocarItensDoCarrinho(item_cod INTEGER, item_quantidade INTEGER) RETURNS VOID AS 
+$$
+BEGIN
+    UPDATE produtos
+    SET quantidade = quantidade + item_quantidade
+    WHERE cod = item_cod;
+END;
+$$ 
+LANGUAGE PLPGSQL;
 
 CREATE VIEW view_sellers_report AS
 SELECT sellers.sellerid AS sellerid, sellers.name AS sellername, sellers.email as selleremail , SUM(COALESCE(payments.totalprice, 0)) AS totalprice, json_agg(payments.products) AS products
