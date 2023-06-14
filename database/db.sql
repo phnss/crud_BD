@@ -2,11 +2,14 @@
 --DROP DATABASE IF EXISTS Crud;
 --CREATE DATABASE Crud; 
 
+--Apagando TABLES e VIEWS que ja estão pre criadas
 DROP TABLE IF EXISTS produtos CASCADE;
 DROP TABLE IF EXISTS clientes CASCADE;
 DROP TABLE IF EXISTS sellers CASCADE;
 DROP TABLE IF EXISTS payments CASCADE;
 DROP VIEW IF EXISTS view_vendas CASCADE;
+DROP FUNCTION IF EXISTS RecolocarItensDoCarrinho(item_cod INTEGER, item_quantidade INTEGER);
+DROP PROCEDURE IF EXISTS RecolocarItenDoCarrinho(item_cod INTEGER, item_quantidade INTEGER);
 
 --Criando as tables usadas
 CREATE TABLE IF NOT EXISTS produtos(
@@ -19,6 +22,10 @@ CREATE TABLE IF NOT EXISTS produtos(
 
     CONSTRAINT pk_prod PRIMARY KEY (cod)
 );
+--Index para a table produtos
+CREATE INDEX index_cod_prod ON produtos (cod);
+CREATE INDEX index_nome_prod ON produtos (nome);
+CREATE INDEX index_preco_prod ON produtos (preço);
 
 CREATE TABLE IF NOT EXISTS clientes(
     id SERIAL,
@@ -31,6 +38,10 @@ CREATE TABLE IF NOT EXISTS clientes(
 
     CONSTRAINT pk_customers PRIMARY KEY(id) 
 );
+CREATE INDEX index_id_cli ON clientes (id);
+CREATE INDEX index_nome_cli ON clientes (nome);
+CREATE INDEX index_email_cli ON clientes (email);
+
 
 CREATE TABLE IF NOT EXISTS sellers(
     sellerId SERIAL,
@@ -50,6 +61,7 @@ CREATE TABLE IF NOT EXISTS payments(
 
     CONSTRAINT pk_payments PRIMARY KEY(id) 
 );
+
 
 INSERT INTO produtos(cod, nome, preço, quantidade, categoria, origem) 
 VALUES
@@ -94,9 +106,9 @@ VALUES
     (400.00, 5, 4, 'muitos produtos'),
     (10.00, 3, 5, 'muitos produtos'),
     (70.00, 2, 6, 'muitos produtos');
-        
-CREATE OR REPLACE FUNCTION RecolocarItensDoCarrinho(item_cod INTEGER, item_quantidade INTEGER) RETURNS VOID AS 
-$$
+
+CREATE OR REPLACE PROCEDURE RecolocarItensDoCarrinho(item_cod INTEGER, item_quantidade INTEGER) 
+AS $$
 BEGIN
     UPDATE produtos
     SET quantidade = quantidade + item_quantidade
@@ -104,6 +116,7 @@ BEGIN
 END;
 $$ 
 LANGUAGE PLPGSQL;
+
 
 CREATE VIEW view_sellers_report AS
 SELECT sellers.sellerid AS sellerid, sellers.name AS sellername, sellers.email as selleremail , SUM(COALESCE(payments.totalprice, 0)) AS totalprice, json_agg(payments.products) AS products

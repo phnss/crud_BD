@@ -511,7 +511,7 @@ class ProdutoController
         {   
             await this.connect(cliente);    
             
-            const query = 'SELECT RecolocarItensDoCarrinho($1, $2)';
+            const query = 'CALL RecolocarItensDoCarrinho($1, $2)';
             const values = [item_cod, item_quantidade];
             
             await cliente.query(query, values);
